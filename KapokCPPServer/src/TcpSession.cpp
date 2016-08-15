@@ -117,7 +117,7 @@ public:
 			RecvState_ = ERS_Head;
 		}
 
-		Socket_.async_receive(boost::asio::buffer(HeadBuf_.data() + RecvTransfered_, HeadBuf_.size() - RecvTransfered_), [this, thisPtr = std::move(sessionPtr)](const ErrCode& ec, uint32_t transBytes) mutable
+		Socket_.async_receive(boost::asio::buffer(HeadBuf_.data() + RecvTransfered_, HeadBuf_.size() - RecvTransfered_), [this, thisPtr = std::move(sessionPtr)](const auto& ec, auto transBytes) mutable
 		{
 			if ( ec )
 			{
@@ -179,7 +179,7 @@ public:
 
 	void	RecvBody(TcpSessionSPtr& sessionPtr)
 	{
-		Socket_.async_receive(boost::asio::buffer(BodyBuf_.data() + RecvTransfered_, BodyBuf_.size() - RecvTransfered_), [this, thisPtr = std::move(sessionPtr)](const ErrCode& ec, uint32_t transBytes) mutable
+		Socket_.async_receive(boost::asio::buffer(BodyBuf_.data() + RecvTransfered_, BodyBuf_.size() - RecvTransfered_), [this, thisPtr = std::move(sessionPtr)](const auto& ec, auto transBytes) mutable
 		{
 			if ( ec )
 			{
@@ -213,7 +213,7 @@ public:
 		}
 		auto& headBuf = *reinterpret_cast<HeadBuf*>( &SendHead_ );
 
-		Socket_.async_send(boost::asio::buffer(headBuf.data() + SendTransfered_, headBuf.size() - SendTransfered_), [this, thisPtr = std::move(sessionPtr)](const ErrCode& ec, uint32_t ubytes) mutable
+		Socket_.async_send(boost::asio::buffer(headBuf.data() + SendTransfered_, headBuf.size() - SendTransfered_), [this, thisPtr = std::move(sessionPtr)](const auto& ec, auto ubytes) mutable
 		{
 			if ( ec )
 			{
@@ -234,7 +234,7 @@ public:
 		auto bufData = boost::asio::buffer_cast<const uint8_t*>(SendBuf_);
 		auto bufSize = boost::asio::buffer_size(SendBuf_);
 
-		Socket_.async_write_some(boost::asio::buffer(bufData + SendTransfered_, bufSize - SendTransfered_), [this, thisPtr = std::move(sessionPtr)](const ErrCode& ec, uint32_t ubytes) mutable
+		Socket_.async_write_some(boost::asio::buffer(bufData + SendTransfered_, bufSize - SendTransfered_), [this, thisPtr = std::move(sessionPtr)](const auto& ec, auto ubytes) mutable
 		{
 			if ( ec )
 			{

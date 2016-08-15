@@ -32,9 +32,9 @@ public:
 
 public:
 
-	boost::system::error_code	StartAccept(uint16_t listenPort);
+	ErrCode		StartAccept(uint16_t listenPort);
 
-	boost::system::error_code	StopAccept();
+	ErrCode		StopAccept();
 
 	Listener&	GetListener();
 };

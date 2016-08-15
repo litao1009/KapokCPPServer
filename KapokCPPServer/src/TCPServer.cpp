@@ -49,9 +49,9 @@ TCPServer::~TCPServer()
 
 }
 
-boost::system::error_code TCPServer::StartAccept(uint16_t listenPort)
+ErrCode TCPServer::StartAccept(uint16_t listenPort)
 {
-	boost::system::error_code ec;
+	ErrCode ec;
 
 	auto& imp_ = *ImpUPtr_;	
 
@@ -84,9 +84,9 @@ boost::system::error_code TCPServer::StartAccept(uint16_t listenPort)
 	return ec;
 }
 
-boost::system::error_code TCPServer::StopAccept()
+ErrCode TCPServer::StopAccept()
 {
-	boost::system::error_code ec;
+	ErrCode ec;
 
 	auto& imp_ = *ImpUPtr_;
 
