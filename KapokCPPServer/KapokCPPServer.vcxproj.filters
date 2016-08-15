@@ -36,6 +36,9 @@
     <ClInclude Include="include\TcpSessionFwd.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\TCPServer.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\async\Proactor.cpp">
@@ -45,6 +48,9 @@
       <Filter>src\async</Filter>
     </ClCompile>
     <ClCompile Include="src\TcpSession.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TCPServer.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
