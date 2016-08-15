@@ -37,9 +37,9 @@ int main()
 		sessionList.push_back(session);
 	});
 
-	tcpserver.StartAccept(13);
-
 	threadPool.Start();
+
+	tcpserver.StartAccept( 13 );
 
 	threadPool.Join();
 }
