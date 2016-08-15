@@ -22,12 +22,14 @@ public:
 
 public:
 
+	using SessionBuffer = std::vector<uint8_t>;
+
 	class	Listener
 	{
 	public:
 
 		boost::signals2::signal<void(TcpSessionSPtr, const ErrCode&, uint32_t, uint32_t)>	OnReceive_;
-		boost::signals2::signal<void(TcpSessionSPtr, const ErrCode&, std::string&)>			OnPostReceive_;
+		boost::signals2::signal<void(TcpSessionSPtr, const ErrCode&, SessionBuffer&)>		OnPostReceive_;
 		boost::signals2::signal<void(TcpSessionSPtr, const ErrCode&, uint32_t, uint32_t)>	OnSend_;
 		boost::signals2::signal<void(TcpSessionSPtr, const ErrCode&)>						OnPostSend_;
 		boost::signals2::signal<void(TcpSessionSPtr)>										OnClose_;
@@ -35,15 +37,15 @@ public:
 
 public:
 
-	bool				StartRead();
+	bool				Receive();
 
 	void				ShutDown(bool clearOnRecv = false);
 
-	bool				IsWorking();
-
 	bool				IsSending() const;
 	
-	void				Send(const boost::asio::const_buffer& buffer);
+	bool				Send(const boost::asio::const_buffer& buffer);
+
+	Socket&				GetSocket();
 
 	const EndPoint&		GetRemoteEP() const;
 
