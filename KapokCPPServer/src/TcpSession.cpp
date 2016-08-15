@@ -65,7 +65,7 @@ public:
 	std::atomic<ESendState>		SendState_{ ESS_None };
 	Socket						Socket_;
 	HeadBuf						HeadBuf_;
-	SessionBuffer				BodyBuf_;
+	BufferType					BodyBuf_;
 	uint32_t					RecvOffset_{};
 	uint32_t					RecvTransfered_{};
 	SHead						RecvHead_;
@@ -122,7 +122,7 @@ public:
 			if ( ec )
 			{
 				ResetRecv();
-				Listener_.OnPostReceive_(thisPtr, ec, SessionBuffer(0));
+				Listener_.OnPostReceive_(thisPtr, ec, BufferType(0));
 				return;
 			}
 
@@ -184,7 +184,7 @@ public:
 			if ( ec )
 			{
 				ResetRecv();
-				Listener_.OnPostReceive_(thisPtr, ec, SessionBuffer(0));
+				Listener_.OnPostReceive_(thisPtr, ec, BufferType(0));
 				return;
 			}
 

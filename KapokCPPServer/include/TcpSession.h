@@ -22,14 +22,14 @@ public:
 
 public:
 
-	using SessionBuffer = std::vector<uint8_t>;
+	using BufferType = std::vector<uint8_t>;
 
 	class	Listener
 	{
 	public:
 
 		boost::signals2::signal<void(TcpSessionSPtr, const ErrCode&, uint32_t, uint32_t)>	OnReceive_;
-		boost::signals2::signal<void(TcpSessionSPtr, const ErrCode&, SessionBuffer&)>		OnPostReceive_;
+		boost::signals2::signal<void(TcpSessionSPtr, const ErrCode&, BufferType&)>			OnPostReceive_;
 		boost::signals2::signal<void(TcpSessionSPtr, const ErrCode&, uint32_t, uint32_t)>	OnSend_;
 		boost::signals2::signal<void(TcpSessionSPtr, const ErrCode&)>						OnPostSend_;
 		boost::signals2::signal<void(TcpSessionSPtr)>										OnClose_;
