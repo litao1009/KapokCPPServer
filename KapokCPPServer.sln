@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KapokCPPServer.Main", "Kapo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KapokClient", "KapokClient\KapokClient.vcxproj", "{1B32E6D7-6A9E-49B5-85B2-078ACFB405EE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL2-static", "SDL2\SDL2-static.vcxproj", "{773D47B6-DA0C-388D-B713-D7FFB5264CBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,13 @@ Global
 		{1B32E6D7-6A9E-49B5-85B2-078ACFB405EE}.Release|x64.Build.0 = Release|x64
 		{1B32E6D7-6A9E-49B5-85B2-078ACFB405EE}.Release|x86.ActiveCfg = Release|Win32
 		{1B32E6D7-6A9E-49B5-85B2-078ACFB405EE}.Release|x86.Build.0 = Release|Win32
+		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Debug|x64.ActiveCfg = Debug|x64
+		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Debug|x64.Build.0 = Debug|x64
+		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Debug|x86.ActiveCfg = Debug|Win32
+		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Debug|x86.Build.0 = Debug|Win32
+		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Release|x64.ActiveCfg = Release|x64
+		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Release|x64.Build.0 = Release|x64
+		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
