@@ -1,9 +1,9 @@
-#include "TCPServer.h"
-#include "TcpSession.h"
+#include "WSServer.h"
+#include "WSSession.h"
 
 #include <boost/asio.hpp>
 
-class	TCPServer::Imp
+class	WSServer::Imp
 {
 public:
 
@@ -17,8 +17,8 @@ public:
 
 	void	Accept()
 	{
-		auto session = std::make_shared<TcpSession>(Acceptor_.get_io_service());
-		auto& sock = session->GetSocket();
+		auto session = std::make_shared<WSSession>(Acceptor_.get_io_service());
+		auto& sock = session->GetStream().next_layer();
 		Acceptor_.async_accept(sock, [this, sessionPtr = std::move(session)](const auto& ec) mutable
 		{
 			if ( ec )
@@ -38,24 +38,24 @@ public:
 	}
 };
 
-TCPServer::TCPServer(IOService& ios):ImpUPtr_(std::make_unique<Imp>(ios))
-{
-	auto& imp_ = *ImpUPtr_;
-}
-
-TCPServer::~TCPServer()
+WSServer::WSServer(IOService& ios):ImpUPtr_(std::make_unique<Imp>(ios))
 {
 
 }
 
-ErrCode TCPServer::StartAccept(uint16_t listenPort)
+WSServer::~WSServer()
+{
+
+}
+
+ErrCode WSServer::StartAccept(uint16_t listenPort)
 {
 	ErrCode ec;
 
-	auto& imp_ = *ImpUPtr_;	
+	auto& imp_ = *ImpUPtr_;
 
 	boost::asio::ip::tcp::endpoint ep(boost::asio::ip::tcp::v4(), listenPort);
-	
+
 	imp_.Acceptor_.open(ep.protocol(), ec);
 	if ( ec )
 	{
@@ -85,7 +85,7 @@ ErrCode TCPServer::StartAccept(uint16_t listenPort)
 	return ec;
 }
 
-ErrCode TCPServer::StopAccept()
+ErrCode WSServer::StopAccept()
 {
 	ErrCode ec;
 
@@ -96,7 +96,7 @@ ErrCode TCPServer::StopAccept()
 	return ec;
 }
 
-TCPServer::Listener& TCPServer::GetListener()
+WSServer::Listener& WSServer::GetListener()
 {
 	auto& imp_ = *ImpUPtr_;
 

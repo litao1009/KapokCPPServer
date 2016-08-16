@@ -1,24 +1,24 @@
 #pragma once
 
-#include "Predef.h"
-#include "TcpSessionFwd.h"
+#include "WSPredef.h"
+#include "WSSessionFwd.h"
 
 #include <memory>
 
 #include <boost/signals2.hpp>
 
-class	TCPServer
+class	WSServer
 {
 	class	Imp;
 	std::unique_ptr<Imp>	ImpUPtr_;
 
 public:
 
-	TCPServer(IOService& ios);
+	WSServer(IOService& ios);
 
-	~TCPServer();
+	~WSServer();
 
-	TCPServer(const TCPServer&) = delete;
+	WSServer(const WSServer&) = delete;
 
 public:
 
@@ -26,7 +26,7 @@ public:
 	{
 	public:
 
-		boost::signals2::signal<void(TcpSessionSPtr&)>	OnAccept_;
+		boost::signals2::signal<void(WSSessionSPtr&)>	OnAccept_;
 		boost::signals2::signal<void(const ErrCode&)>	OnAcceptError_;
 	};
 

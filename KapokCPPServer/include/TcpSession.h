@@ -14,7 +14,7 @@ class	TcpSession : public std::enable_shared_from_this<TcpSession>
 
 public:
 
-	TcpSession(Socket& sock);
+	TcpSession(IOService& ios);
 
 	~TcpSession();
 

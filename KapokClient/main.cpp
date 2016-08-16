@@ -15,7 +15,7 @@ int main()
 
 	TCPClient client(threadPool.GetIOService());
 
-	client.SetServer( "127.0.0.1", 13 );
+	client.SetServer( "127.0.0.1", 16 );
 
 	TcpSessionSPtr session;
 	ErrCode ec;

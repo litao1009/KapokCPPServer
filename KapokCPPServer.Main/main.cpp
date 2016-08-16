@@ -1,8 +1,12 @@
 #include "vld.h"
 
+#include "AsyncThreadPool.h"
+
 #include "TCPServer.h"
 #include "TcpSession.h"
-#include "AsyncThreadPool.h"
+
+#include "WSServer.h"
+#include "WSSession.h"
 
 #include "SDL.h"
 
@@ -15,7 +19,7 @@
 
 int main()
 {
-	{
+	{//Init SDL
 		auto ret = SDL_Init(SDL_INIT_EVENTS);
 		auto window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
 		auto renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -23,12 +27,13 @@ int main()
 
 	std::vector<TcpSessionSPtr> sessionList;
 
-	AsyncThreadPool threadPool;
-	threadPool.Start(1);
+	//{TCPServer
+	AsyncThreadPool tcpThreadPool;
+	tcpThreadPool.Start(1);
 
-	TCPServer tcpserver(threadPool.GetIOService());
+	TCPServer tcpServer(tcpThreadPool.GetIOService());
 
-	tcpserver.GetListener().OnAccept_.connect([&sessionList](TcpSessionSPtr& session)
+	tcpServer.GetListener().OnAccept_.connect([&sessionList](TcpSessionSPtr& session)
 	{
 		session->GetListener().OnPostReceive_.connect([](TcpSessionSPtr& thisPtr, const ErrCode& ec, TcpSession::BufferType& buf)
 		{
@@ -52,9 +57,25 @@ int main()
 		sessionList.push_back(session);
 	});
 
-	tcpserver.StartAccept( 13 );
+	tcpServer.StartAccept( 6001 );
+	//}
 
+	//{WSServer
+	AsyncThreadPool wsThreadPool;
+	wsThreadPool.Start(1);
+
+	WSServer wsServer(wsThreadPool.GetIOService());
+
+	wsServer.GetListener().OnAccept_.connect([&sessionList](WSSessionSPtr& session)
 	{
+		auto i = 0;
+	});
+
+	wsServer.StartAccept(6002);
+	//}
+
+
+	{//SDL
 		SDL_Event evt;
 		auto quit = false;
 		while ( !quit )
@@ -73,8 +94,11 @@ int main()
 		SDL_Quit();
 	}
 
-	tcpserver.StopAccept();
-	threadPool.Stop();
+	tcpServer.StopAccept();
+	tcpThreadPool.Stop();
+	tcpThreadPool.Join();
 
-	threadPool.Join();
+	wsServer.StopAccept();
+	wsThreadPool.Stop();
+	wsThreadPool.Join();
 }

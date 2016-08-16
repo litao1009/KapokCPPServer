@@ -28,7 +28,7 @@ std::tuple<ErrCode, TcpSessionSPtr> TCPClient::CreateSession()
 {
 	auto& imp_ = *ImpUPtr_;
 
-	auto session = std::make_shared<TcpSession>(Socket(imp_.IOService_));
+	auto session = std::make_shared<TcpSession>(imp_.IOService_);
 
 	ErrCode ec;
 	session->GetSocket().connect(imp_.ServerEP_, ec);
@@ -40,7 +40,7 @@ void TCPClient::AsyncCreateSession(boost::optional<uint32_t> timeout /*= boost::
 {
 	auto& imp_ = *ImpUPtr_;
 
-	auto session = std::make_shared<TcpSession>(Socket(imp_.IOService_));
+	auto session = std::make_shared<TcpSession>(imp_.IOService_);
 
 	session->GetSocket().async_connect(imp_.ServerEP_, [this, session](const auto& ec)
 	{

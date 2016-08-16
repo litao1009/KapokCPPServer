@@ -81,7 +81,7 @@ public:
 
 public:
 
-	Imp(Socket& sock):Socket_(std::move(sock))
+	Imp(IOService& ios):Socket_(ios)
 	{}
 
 public:
@@ -260,7 +260,7 @@ public:
 	}
 };
 
-TcpSession::TcpSession(Socket& sock):ImpUPtr_(std::make_unique<Imp>(sock))
+TcpSession::TcpSession(IOService& ios):ImpUPtr_(std::make_unique<Imp>(ios))
 {
 	auto& imp_ = *ImpUPtr_;
 

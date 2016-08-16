@@ -94,7 +94,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4819</DisableSpecificWarnings>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -109,7 +109,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4819</DisableSpecificWarnings>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -126,7 +126,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4819</DisableSpecificWarnings>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -145,7 +145,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ProgramDataBaseFileName>$(IntDir)$(ProjectName)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
-      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996;4819</DisableSpecificWarnings>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

@@ -39,6 +39,18 @@
     <ClInclude Include="include\AsyncThreadPool.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\WSServer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WSSession.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WSSessionFwd.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WSPredef.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\async\Proactor.cpp">
@@ -55,6 +67,12 @@
     </ClCompile>
     <ClCompile Include="src\async\AsyncThreadPool.cpp">
       <Filter>src\async</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WSServer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WSSession.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
