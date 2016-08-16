@@ -1,6 +1,5 @@
 #pragma once
 
-#include "AsyncThreadPoolFwd.h"
 #include "Predef.h"
 
 #include <functional>
@@ -28,7 +27,7 @@ public:
 
 public:
 
-	AsyncThreadPool(uint32_t ThreadNr);
+	AsyncThreadPool();
 
 	~AsyncThreadPool();
 
@@ -36,7 +35,7 @@ public:
 
 public:
 
-	void				Start();
+	void				Start(uint32_t ThreadNr);
 
 	ErrCode				Run();
 

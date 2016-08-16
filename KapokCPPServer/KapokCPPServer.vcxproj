@@ -142,7 +142,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\AsyncThreadPool.h" />
-    <ClInclude Include="include\AsyncThreadPoolFwd.h" />
     <ClInclude Include="include\Predef.h" />
     <ClInclude Include="include\TCPClient.h" />
     <ClInclude Include="include\TCPServer.h" />

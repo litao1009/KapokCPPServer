@@ -39,9 +39,6 @@
     <ClInclude Include="include\AsyncThreadPool.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\AsyncThreadPoolFwd.h">
-      <Filter>include</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\async\Proactor.cpp">

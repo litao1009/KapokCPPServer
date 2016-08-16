@@ -10,8 +10,8 @@ int main()
 {
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 
-	AsyncThreadPool threadPool( 1 );
-	threadPool.Start();
+	AsyncThreadPool threadPool;
+	threadPool.Start(1);
 
 	TCPClient client(threadPool.GetIOService());
 

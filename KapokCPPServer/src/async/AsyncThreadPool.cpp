@@ -11,7 +11,6 @@ class	AsyncThreadPool::Imp
 public:
 
 	std::vector<std::thread>	ThreadGroup_;
-	uint32_t					ThreadNr_{};
 	Proactor					Proactor_;
 	Listener					Listener_;
 
@@ -19,11 +18,9 @@ public:
 	std::atomic_bool	IsStop_{ false };
 };
 
-AsyncThreadPool::AsyncThreadPool(uint32_t ThreadNr):
+AsyncThreadPool::AsyncThreadPool():
 	ImpUPtr_(std::make_unique<Imp>())
-{
-	ImpUPtr_->ThreadNr_ = ThreadNr;
-}
+{}
 
 AsyncThreadPool::~AsyncThreadPool()
 {
@@ -40,7 +37,7 @@ AsyncThreadPool::~AsyncThreadPool()
 	}
 }
 
-void AsyncThreadPool::Start()
+void AsyncThreadPool::Start(uint32_t ThreadNr)
 {
 	auto& imp_ = *ImpUPtr_;
 
@@ -49,10 +46,12 @@ void AsyncThreadPool::Start()
 		return;
 	}
 
+	imp_.ThreadGroup_.reserve(ThreadNr);
+
 	// start threads
-	for( auto i = 0U; i < ImpUPtr_->ThreadNr_; ++i )
+	for( auto i = 0U; i < ThreadNr; ++i )
 	{
-		ImpUPtr_->ThreadGroup_.emplace_back(([&imp_]()
+		imp_.ThreadGroup_.emplace_back(([&imp_]()
 		{
 			imp_.Listener_.OnStartThread_();
 
@@ -60,7 +59,7 @@ void AsyncThreadPool::Start()
 		}));
 	}
 
-	ImpUPtr_->IsStart_.store(true);
+	imp_.IsStart_.store(true);
 }
 
 ErrCode AsyncThreadPool::Run()

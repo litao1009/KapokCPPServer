@@ -9,8 +9,8 @@ int main()
 {
 	std::vector<TcpSessionSPtr> sessionList;
 
-	AsyncThreadPool threadPool(1);
-	threadPool.Start();
+	AsyncThreadPool threadPool;
+	threadPool.Start(1);
 
 	TCPServer tcpserver(threadPool.GetIOService());
 
