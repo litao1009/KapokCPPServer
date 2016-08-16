@@ -25,15 +25,15 @@ int main()
 		auto renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	}
 
-	std::vector<TcpSessionSPtr> sessionList;
-
 	//{TCPServer
 	AsyncThreadPool tcpThreadPool;
 	tcpThreadPool.Start(1);
 
 	TCPServer tcpServer(tcpThreadPool.GetIOService());
 
-	tcpServer.GetListener().OnAccept_.connect([&sessionList](TcpSessionSPtr& session)
+	std::vector<TcpSessionSPtr> tcpsessionList;
+
+	tcpServer.GetListener().OnAccept_.connect([&tcpsessionList](TcpSessionSPtr& session)
 	{
 		session->GetListener().OnPostReceive_.connect([](TcpSessionSPtr& thisPtr, const ErrCode& ec, TcpSession::BufferType& buf)
 		{
@@ -54,7 +54,7 @@ int main()
 		
 		session->Receive();
 
-		sessionList.push_back(session);
+		tcpsessionList.push_back(session);
 	});
 
 	tcpServer.StartAccept( 6001 );
@@ -65,9 +65,26 @@ int main()
 	wsThreadPool.Start(1);
 
 	WSServer wsServer(wsThreadPool.GetIOService());
+	std::vector<WSSessionSPtr> wssessionList;
 
-	wsServer.GetListener().OnAccept_.connect([&sessionList](WSSessionSPtr& session)
+	static beast::websocket::opcode op;
+	static beast::streambuf buf;
+
+	wsServer.GetListener().OnAccept_.connect([&](WSSessionSPtr& session)
 	{
+		
+		session->GetStream().async_read(op, buf, [session](const auto& ec)
+		{
+			if ( ec )
+			{
+				auto i = 0;
+			}
+
+			
+			session->GetStream().write(boost::asio::buffer("Hello"));
+		});
+		wssessionList.push_back(session);
+
 		auto i = 0;
 	});
 
