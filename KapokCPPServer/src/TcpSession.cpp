@@ -57,15 +57,15 @@ public:
 	};
 
 	using	HeadSize = std::integral_constant<uint32_t, sizeof(SHead)>;
-
-	using	HeadBuf = std::array<uint8_t, 0xff>;
+	using	HeadArray = std::array<uint8_t, HeadSize::value>;
+	using	RecvHeadBuf = std::array<uint8_t, 0xff>;
 	
 
 	std::atomic<ERecvState>		RecvState_{ ERS_None };
 	std::atomic<ESendState>		SendState_{ ESS_None };
 	Socket						Socket_;
-	HeadBuf						HeadBuf_;
-	BufferType					BodyBuf_;
+	RecvHeadBuf					RecvHeadBuf_;
+	BufferType					RecvBodyBuf_;
 	uint32_t					RecvOffset_{};
 	uint32_t					RecvTransfered_{};
 	SHead						RecvHead_;
@@ -117,7 +117,7 @@ public:
 			RecvState_ = ERS_Head;
 		}
 
-		Socket_.async_receive(boost::asio::buffer(HeadBuf_.data() + RecvTransfered_, HeadBuf_.size() - RecvTransfered_), [this, thisPtr = std::move(sessionPtr)](const auto& ec, auto transBytes) mutable
+		Socket_.async_receive(boost::asio::buffer(RecvHeadBuf_.data() + RecvTransfered_, RecvHeadBuf_.size() - RecvTransfered_), [this, thisPtr = std::move(sessionPtr)](const ErrCode& ec, auto transBytes) mutable
 		{
 			if ( ec )
 			{
@@ -132,45 +132,41 @@ public:
 
 			if ( readyToReadLength >= HeadSize::value )
 			{
-				auto pReadBegin = HeadBuf_.data() + RecvOffset_;
+				auto pReadBegin = RecvHeadBuf_.data() + RecvOffset_;
 				auto pReadEnd = pReadBegin + readyToReadLength - HeadSize::value + 1;
-				for ( ; pReadBegin < pReadEnd; ++pReadBegin )
+				for ( ; pReadBegin < pReadEnd; ++pReadBegin, ++RecvOffset_ )
 				{
 					auto& head = *reinterpret_cast<SHead*>( pReadBegin );
 					if ( head.Check() )
 					{//Begin read body
 						RecvHead_ = head;
 						
-						auto pBufEnd = HeadBuf_.data() + RecvTransfered_;
+						auto pBufEnd = RecvHeadBuf_.data() + RecvTransfered_;
 
-						BodyBuf_.resize(RecvHead_.ContentLength_, 0);
-						BodyBuf_.shrink_to_fit();
+						RecvBodyBuf_.resize(RecvHead_.ContentLength_, 0);
+						RecvBodyBuf_.shrink_to_fit();
 
 						auto pCopyBegin = pReadBegin + HeadSize::value;
-						auto pCopyEnd = HeadBuf_.data() + RecvTransfered_ + 1;
-						auto pDst = std::copy(pCopyBegin, pCopyEnd, BodyBuf_.data());
+						auto pCopyEnd = RecvHeadBuf_.data() + RecvTransfered_;
+						auto pDst = std::copy(pCopyBegin, pCopyEnd, RecvBodyBuf_.data());
 
 						RecvOffset_ = 0;
-						RecvTransfered_ = pDst - BodyBuf_.data();
+						RecvTransfered_ = pDst - RecvBodyBuf_.data();
 						RecvState_ = ERS_Body;
 						RecvBody(thisPtr);
 
 						return;
 					}
-					else
-					{//continue
-						++RecvOffset_;
-					}
 				}
 			}
 
-			if ( HeadBuf_.size() - RecvTransfered_ < HeadSize::value )
+			if ( RecvHeadBuf_.size() - RecvTransfered_ < HeadSize::value )
 			{
-				auto pDst = std::copy(HeadBuf_.data() + RecvOffset_, HeadBuf_.data() + RecvTransfered_, BodyBuf_.data());
-				pDst = std::copy(BodyBuf_.data(), pDst, HeadBuf_.data());
+				auto pDst = std::copy(RecvHeadBuf_.data() + RecvOffset_, RecvHeadBuf_.data() + RecvTransfered_, RecvBodyBuf_.data());
+				pDst = std::copy(RecvBodyBuf_.data(), pDst, RecvHeadBuf_.data());
 
 				RecvOffset_ = 0;
-				RecvTransfered_ = pDst - HeadBuf_.data();
+				RecvTransfered_ = pDst - RecvHeadBuf_.data();
 			}
 
 			RecvHead(thisPtr);
@@ -179,7 +175,7 @@ public:
 
 	void	RecvBody(TcpSessionSPtr& sessionPtr)
 	{
-		Socket_.async_receive(boost::asio::buffer(BodyBuf_.data() + RecvTransfered_, BodyBuf_.size() - RecvTransfered_), [this, thisPtr = std::move(sessionPtr)](const auto& ec, auto transBytes) mutable
+		Socket_.async_receive(boost::asio::buffer(RecvBodyBuf_.data() + RecvTransfered_, RecvBodyBuf_.size() - RecvTransfered_), [this, thisPtr = std::move(sessionPtr)](const auto& ec, auto transBytes) mutable
 		{
 			if ( ec )
 			{
@@ -190,16 +186,16 @@ public:
 
 			RecvTransfered_ += transBytes;
 
-			Listener_.OnReceive_(thisPtr, ec, RecvTransfered_, BodyBuf_.size());
+			Listener_.OnReceive_(thisPtr, ec, RecvTransfered_, RecvBodyBuf_.size());
 
-			if ( RecvTransfered_ < BodyBuf_.size() )
+			if ( RecvTransfered_ < RecvBodyBuf_.size() )
 			{
 				RecvBody(thisPtr);
 			}
 			else
 			{
 				ResetRecv();
-				Listener_.OnPostReceive_(thisPtr, ec, BodyBuf_);
+				Listener_.OnPostReceive_(thisPtr, ec, RecvBodyBuf_);
 			}
 		});
 	}
@@ -211,7 +207,7 @@ public:
 			SendState_ = ESS_Head;
 			SendTransfered_ = 0;
 		}
-		auto& headBuf = *reinterpret_cast<HeadBuf*>( &SendHead_ );
+		auto& headBuf = *reinterpret_cast<HeadArray*>( &SendHead_ );
 
 		Socket_.async_send(boost::asio::buffer(headBuf.data() + SendTransfered_, headBuf.size() - SendTransfered_), [this, thisPtr = std::move(sessionPtr)](const auto& ec, auto ubytes) mutable
 		{
@@ -265,8 +261,8 @@ TcpSession::TcpSession(Socket& sock):ImpUPtr_(std::make_unique<Imp>(sock))
 	auto& imp_ = *ImpUPtr_;
 
 	imp_.ThisPtr_ = this;
-	imp_.LocalEP_ = imp_.Socket_.local_endpoint();
-	imp_.RemoteEP_ = imp_.Socket_.remote_endpoint();
+// 	imp_.LocalEP_ = imp_.Socket_.local_endpoint();
+// 	imp_.RemoteEP_ = imp_.Socket_.remote_endpoint();
 }
 
 TcpSession::~TcpSession()

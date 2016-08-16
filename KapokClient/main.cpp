@@ -8,18 +8,22 @@ using namespace std::string_literals;
 
 int main()
 {
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+
 	AsynConcurrentPool threadPool( 1 );
+	threadPool.Start();
 
 	TCPClient client(threadPool.GetIOService());
 
-	client.SetServer( "127.0.0.1", 14 );
-
-	threadPool.Start();
+	client.SetServer( "127.0.0.1", 13 );
 
 	TcpSessionSPtr session;
 	ErrCode ec;
 	std::tie(ec, session) = client.CreateSession();
-
+	if ( ec )
+	{
+		auto i = 0;
+	}
 	session->GetListener().OnPostSend_.connect( [&session]( auto se, const auto& ec )
 	{
 		if ( !ec )

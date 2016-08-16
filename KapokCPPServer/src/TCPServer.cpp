@@ -17,10 +17,9 @@ public:
 
 	void	Accept()
 	{
-		Socket sock(Acceptor_.get_io_service());
-		auto session = std::make_shared<TcpSession>(sock);
-
-		Acceptor_.async_accept(session->GetSocket(), [this, sessionPtr = std::move(session)](const auto& ec) mutable
+		auto session = std::make_shared<TcpSession>(Socket(Acceptor_.get_io_service()));
+		auto& sock = session->GetSocket();
+		Acceptor_.async_accept(sock, [this, sessionPtr = std::move(session)](const auto& ec) mutable
 		{
 			if ( ec )
 			{
@@ -80,6 +79,8 @@ ErrCode TCPServer::StartAccept(uint16_t listenPort)
 	{
 		return ec;
 	}
+
+	imp_.Accept();
 
 	return ec;
 }

@@ -10,6 +10,7 @@ int main()
 	std::vector<TcpSessionSPtr> sessionList;
 
 	AsynConcurrentPool threadPool(1);
+	threadPool.Start();
 
 	TCPServer tcpserver(threadPool.GetIOService());
 
@@ -36,8 +37,6 @@ int main()
 
 		sessionList.push_back(session);
 	});
-
-	threadPool.Start();
 
 	tcpserver.StartAccept( 13 );
 
