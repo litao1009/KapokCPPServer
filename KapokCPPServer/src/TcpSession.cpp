@@ -56,10 +56,12 @@ public:
 		}
 	};
 
+public:
+
 	using	HeadSize = std::integral_constant<uint32_t, sizeof(SHead)>;
-	using	HeadArray = std::array<uint8_t, HeadSize::value>;
 	using	RecvHeadBuf = std::array<uint8_t, 0xff>;
 	
+public:
 
 	std::atomic<ERecvState>		RecvState_{ ERS_None };
 	std::atomic<ESendState>		SendState_{ ESS_None };
@@ -202,6 +204,8 @@ public:
 
 	void	SendHead(TcpSessionSPtr& sessionPtr)
 	{
+		using	HeadArray = std::array<uint8_t, HeadSize::value>;
+
 		if ( SendState_ == ESS_None )
 		{
 			SendState_ = ESS_Head;

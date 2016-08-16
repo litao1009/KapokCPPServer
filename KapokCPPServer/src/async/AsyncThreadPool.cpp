@@ -1,4 +1,4 @@
-#include "AsynConcurrentPool.h"
+#include "AsyncThreadPool.h"
 
 #include "Proactor.h"
 
@@ -6,7 +6,7 @@
 #include <vector>
 #include <thread>
 
-class	AsynConcurrentPool::Imp
+class	AsyncThreadPool::Imp
 {
 public:
 
@@ -19,13 +19,13 @@ public:
 	std::atomic_bool	IsStop_{ false };
 };
 
-AsynConcurrentPool::AsynConcurrentPool(uint32_t ThreadNr):
+AsyncThreadPool::AsyncThreadPool(uint32_t ThreadNr):
 	ImpUPtr_(std::make_unique<Imp>())
 {
 	ImpUPtr_->ThreadNr_ = ThreadNr;
 }
 
-AsynConcurrentPool::~AsynConcurrentPool()
+AsyncThreadPool::~AsyncThreadPool()
 {
 	auto& imp_ = *ImpUPtr_;
 
@@ -40,7 +40,7 @@ AsynConcurrentPool::~AsynConcurrentPool()
 	}
 }
 
-void AsynConcurrentPool::Start()
+void AsyncThreadPool::Start()
 {
 	auto& imp_ = *ImpUPtr_;
 
@@ -63,14 +63,14 @@ void AsynConcurrentPool::Start()
 	ImpUPtr_->IsStart_.store(true);
 }
 
-ErrCode AsynConcurrentPool::Run()
+ErrCode AsyncThreadPool::Run()
 {
 	auto& imp_ = *ImpUPtr_;
 
 	return imp_.Proactor_.Run();
 }
 
-void AsynConcurrentPool::Join()
+void AsyncThreadPool::Join()
 {
 	auto& imp_ = *ImpUPtr_;
 
@@ -85,7 +85,7 @@ void AsynConcurrentPool::Join()
 	imp_.Listener_.OnPostJoinAllThread_();
 }
 
-void AsynConcurrentPool::Stop()
+void AsyncThreadPool::Stop()
 {
 	auto& imp_ = *ImpUPtr_;
 
@@ -95,7 +95,7 @@ void AsynConcurrentPool::Stop()
 }
 
 
-bool AsynConcurrentPool::IsStop() const
+bool AsyncThreadPool::IsStop() const
 {
 	auto& imp_ = *ImpUPtr_;
 
@@ -103,26 +103,26 @@ bool AsynConcurrentPool::IsStop() const
 }
 
 
-IOService& AsynConcurrentPool::GetIOService()
+IOService& AsyncThreadPool::GetIOService()
 {
 	auto& imp_ = *ImpUPtr_;
 
 	return imp_.Proactor_.GetIOService();
 }
 
-uint32_t AsynConcurrentPool::GetThreadsSize() const
+uint32_t AsyncThreadPool::GetThreadsSize() const
 {
 	return ImpUPtr_->ThreadGroup_.size();
 }
 
-void AsynConcurrentPool::Post(Task task)
+void AsyncThreadPool::Post(Task task)
 {
 	auto& imp_ = *ImpUPtr_;
 
 	imp_.Proactor_.GetIOService().post(task);
 }
 
-AsynConcurrentPool::Listener& AsynConcurrentPool::GetListener()
+AsyncThreadPool::Listener& AsyncThreadPool::GetListener()
 {
 	auto& imp_ = *ImpUPtr_;
 

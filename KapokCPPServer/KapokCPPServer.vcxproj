@@ -141,8 +141,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\AsynConcurrentPool.h" />
-    <ClInclude Include="include\AsynConcurrentPoolFwd.h" />
+    <ClInclude Include="include\AsyncThreadPool.h" />
+    <ClInclude Include="include\AsyncThreadPoolFwd.h" />
     <ClInclude Include="include\Predef.h" />
     <ClInclude Include="include\TCPClient.h" />
     <ClInclude Include="include\TCPServer.h" />
@@ -151,7 +151,7 @@
     <ClInclude Include="src\async\Proactor.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\async\AsynConcurrentPool.cpp" />
+    <ClCompile Include="src\async\AsyncThreadPool.cpp" />
     <ClCompile Include="src\async\Proactor.cpp" />
     <ClCompile Include="src\TCPClient.cpp" />
     <ClCompile Include="src\TCPServer.cpp" />

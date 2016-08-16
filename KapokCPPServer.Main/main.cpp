@@ -1,6 +1,6 @@
 #include "TCPServer.h"
 #include "TcpSession.h"
-#include "AsynConcurrentPool.h"
+#include "AsyncThreadPool.h"
 
 #include <vector>
 #include <iostream>
@@ -9,7 +9,7 @@ int main()
 {
 	std::vector<TcpSessionSPtr> sessionList;
 
-	AsynConcurrentPool threadPool(1);
+	AsyncThreadPool threadPool(1);
 	threadPool.Start();
 
 	TCPServer tcpserver(threadPool.GetIOService());

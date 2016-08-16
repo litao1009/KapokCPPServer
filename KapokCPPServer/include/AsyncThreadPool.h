@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AsynConcurrentPoolFwd.h"
+#include "AsyncThreadPoolFwd.h"
 #include "Predef.h"
 
 #include <functional>
@@ -8,7 +8,7 @@
 
 #include <boost/signals2.hpp>
 
-class AsynConcurrentPool
+class AsyncThreadPool
 {
 	class	Imp;
 	std::unique_ptr<Imp>	ImpUPtr_;
@@ -28,11 +28,11 @@ public:
 
 public:
 
-	AsynConcurrentPool(uint32_t ThreadNr);
+	AsyncThreadPool(uint32_t ThreadNr);
 
-	~AsynConcurrentPool();
+	~AsyncThreadPool();
 
-	AsynConcurrentPool(const AsynConcurrentPool&) = delete;
+	AsyncThreadPool(const AsyncThreadPool&) = delete;
 
 public:
 

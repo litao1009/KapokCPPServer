@@ -21,12 +21,6 @@
     <ClInclude Include="src\async\Proactor.h">
       <Filter>src\async</Filter>
     </ClInclude>
-    <ClInclude Include="include\AsynConcurrentPoolFwd.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\AsynConcurrentPool.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\Predef.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -42,12 +36,15 @@
     <ClInclude Include="include\TCPClient.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\AsyncThreadPool.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AsyncThreadPoolFwd.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\async\Proactor.cpp">
-      <Filter>src\async</Filter>
-    </ClCompile>
-    <ClCompile Include="src\async\AsynConcurrentPool.cpp">
       <Filter>src\async</Filter>
     </ClCompile>
     <ClCompile Include="src\TcpSession.cpp">
@@ -58,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="src\TCPClient.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\async\AsyncThreadPool.cpp">
+      <Filter>src\async</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

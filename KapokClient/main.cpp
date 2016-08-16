@@ -1,6 +1,6 @@
 #include "TCPClient.h"
 #include "TcpSession.h"
-#include "AsynConcurrentPool.h"
+#include "AsyncThreadPool.h"
 
 #include <iostream>
 
@@ -10,7 +10,7 @@ int main()
 {
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 
-	AsynConcurrentPool threadPool( 1 );
+	AsyncThreadPool threadPool( 1 );
 	threadPool.Start();
 
 	TCPClient client(threadPool.GetIOService());
