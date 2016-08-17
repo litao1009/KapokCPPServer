@@ -13,16 +13,18 @@
 #include <vector>
 #include <iostream>
 
+#include <boost/asio.hpp>
+
 #ifdef main
 #undef main
 #endif // main
 
 int main()
-{
+{	
 	{//Init SDL
-		auto ret = SDL_Init(SDL_INIT_EVENTS);
+		/*auto ret =*/ SDL_Init(SDL_INIT_EVENTS);
 		auto window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
-		auto renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		/*auto renderer =*/ SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 	}
 
 	//{TCPServer
@@ -73,16 +75,39 @@ int main()
 	wsServer.GetListener().OnAccept_.connect([&](WSSessionSPtr& session)
 	{
 		
-		session->GetStream().async_read(op, buf, [session](const auto& ec)
+		session->GetListener().OnMessage_.connect([](const beast::websocket::opcode& op, WSSessionSPtr& session)
 		{
-			if ( ec )
+			auto& recvBuf = session->GetRecvBuf();
+
+			auto cb = beast::consumed_buffers(recvBuf.data(), 0);
+
+			std::string s;
+			s.reserve(boost::asio::buffer_size(cb));
+
+			for (auto const& buffer : cb)
 			{
-				auto i = 0;
+				s.append(boost::asio::buffer_cast<const char*>(buffer), boost::asio::buffer_size(buffer));
 			}
 
-			
-			session->GetStream().write(boost::asio::buffer("Hello"));
+			std::cout << s << std::endl;
+
+			session->Send(boost::asio::buffer(s), op);
 		});
+
+		session->GetListener().OnPostSend_.connect([](const ErrCode& ec, WSSessionSPtr& session)
+		{
+			if (ec)
+			{
+				session->Close();
+			}
+			else
+			{
+				session->Receive();
+			}
+		});
+
+		session->Receive();
+
 		wssessionList.push_back(session);
 
 		auto i = 0;

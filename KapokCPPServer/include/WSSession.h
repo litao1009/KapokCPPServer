@@ -21,13 +21,16 @@ public:
 
 public:
 
+	using	RecvBuf = std::vector<char>;
+
 	class	Listener
 	{
 	public:
 
 		boost::signals2::signal<void(const ErrCode&, WSSessionSPtr&)>	OnOpen_;
 		boost::signals2::signal<void(const ErrCode&, WSSessionSPtr&)>	OnClose_;
-		boost::signals2::signal<void()>									OnMessage_;
+		boost::signals2::signal<void(const ErrCode&, WSSessionSPtr&)>	OnPostSend_;
+		boost::signals2::signal<void(const beast::websocket::opcode&, WSSessionSPtr&)>	OnMessage_;
 	};
 
 public:
@@ -36,9 +39,11 @@ public:
 
 	bool				Receive();
 	
-	bool				Send(const boost::asio::const_buffer& buffer);
+	bool				Send(const boost::asio::const_buffer& buffer, beast::websocket::opcode opCode);
 
 	WSStream&			GetStream();
+
+	beast::streambuf&	GetRecvBuf();
 
 	const EndPoint&		GetRemoteEP() const;
 
