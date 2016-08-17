@@ -51,7 +51,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>src;include/assimp;include;contrib;contrib/openddlparser/include;contrib/rapidjson/include;$(SolutionDir)externals/zlib/include/zlib;../zlib/include/zlib;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;include;include/assimp;src/contrib/openddlparser/include;src/contrib/rapidjson/include;$(SolutionDir)externals/zlib/include/zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -96,7 +96,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>src;include/assimp;include;contrib;contrib/openddlparser/include;contrib/rapidjson/include;$(SolutionDir)externals/zlib/include/zlib;../zlib/include/zlib;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;include;include/assimp;src/contrib/openddlparser/include;src/contrib/rapidjson/include;$(SolutionDir)externals/zlib/include/zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -335,29 +335,29 @@
     <ClInclude Include="src\D3MFImporter.h" />
     <ClInclude Include="src\D3MFOpcPackage.h" />
     <ClInclude Include="src\irrXMLWrapper.h" />
-    <ClInclude Include="contrib\irrXML\CXMLReaderImpl.h" />
-    <ClInclude Include="contrib\irrXML\heapsort.h" />
-    <ClInclude Include="contrib\irrXML\irrArray.h" />
-    <ClInclude Include="contrib\irrXML\irrString.h" />
-    <ClInclude Include="contrib\irrXML\irrTypes.h" />
-    <ClInclude Include="contrib\irrXML\irrXML.h" />
-    <ClInclude Include="contrib\ConvertUTF\ConvertUTF.h" />
-    <ClInclude Include="contrib\unzip\crypt.h" />
-    <ClInclude Include="contrib\unzip\ioapi.h" />
-    <ClInclude Include="contrib\unzip\unzip.h" />
-    <ClInclude Include="contrib\poly2tri\poly2tri\common\shapes.h" />
-    <ClInclude Include="contrib\poly2tri\poly2tri\common\utils.h" />
-    <ClInclude Include="contrib\poly2tri\poly2tri\sweep\advancing_front.h" />
-    <ClInclude Include="contrib\poly2tri\poly2tri\sweep\cdt.h" />
-    <ClInclude Include="contrib\poly2tri\poly2tri\sweep\sweep.h" />
-    <ClInclude Include="contrib\poly2tri\poly2tri\sweep\sweep_context.h" />
-    <ClInclude Include="contrib\clipper\clipper.hpp" />
-    <ClInclude Include="contrib\openddlparser\include\openddlparser\OpenDDLParser.h" />
-    <ClInclude Include="contrib\openddlparser\include\openddlparser\OpenDDLParserUtils.h" />
-    <ClInclude Include="contrib\openddlparser\include\openddlparser\OpenDDLCommon.h" />
-    <ClInclude Include="contrib\openddlparser\include\openddlparser\OpenDDLExport.h" />
-    <ClInclude Include="contrib\openddlparser\include\openddlparser\DDLNode.h" />
-    <ClInclude Include="contrib\openddlparser\include\openddlparser\Value.h" />
+    <ClInclude Include="src\contrib\irrXML\CXMLReaderImpl.h" />
+    <ClInclude Include="src\contrib\irrXML\heapsort.h" />
+    <ClInclude Include="src\contrib\irrXML\irrArray.h" />
+    <ClInclude Include="src\contrib\irrXML\irrString.h" />
+    <ClInclude Include="src\contrib\irrXML\irrTypes.h" />
+    <ClInclude Include="src\contrib\irrXML\irrXML.h" />
+    <ClInclude Include="src\contrib\ConvertUTF\ConvertUTF.h" />
+    <ClInclude Include="src\contrib\unzip\crypt.h" />
+    <ClInclude Include="src\contrib\unzip\ioapi.h" />
+    <ClInclude Include="src\contrib\unzip\unzip.h" />
+    <ClInclude Include="src\contrib\poly2tri\poly2tri\common\shapes.h" />
+    <ClInclude Include="src\contrib\poly2tri\poly2tri\common\utils.h" />
+    <ClInclude Include="src\contrib\poly2tri\poly2tri\sweep\advancing_front.h" />
+    <ClInclude Include="src\contrib\poly2tri\poly2tri\sweep\cdt.h" />
+    <ClInclude Include="src\contrib\poly2tri\poly2tri\sweep\sweep.h" />
+    <ClInclude Include="src\contrib\poly2tri\poly2tri\sweep\sweep_context.h" />
+    <ClInclude Include="src\contrib\clipper\clipper.hpp" />
+    <ClInclude Include="src\contrib\openddlparser\include\openddlparser\OpenDDLParser.h" />
+    <ClInclude Include="src\contrib\openddlparser\include\openddlparser\OpenDDLParserUtils.h" />
+    <ClInclude Include="src\contrib\openddlparser\include\openddlparser\OpenDDLCommon.h" />
+    <ClInclude Include="src\contrib\openddlparser\include\openddlparser\OpenDDLExport.h" />
+    <ClInclude Include="src\contrib\openddlparser\include\openddlparser\DDLNode.h" />
+    <ClInclude Include="src\contrib\openddlparser\include\openddlparser\Value.h" />
     <ClInclude Include="include\assimp\anim.h" />
     <ClInclude Include="include\assimp\ai_assert.h" />
     <ClInclude Include="include\assimp\camera.h" />
@@ -553,30 +553,30 @@
     <ClCompile Include="src\glTFExporter.cpp" />
     <ClCompile Include="src\D3MFImporter.cpp" />
     <ClCompile Include="src\D3MFOpcPackage.cpp" />
-    <ClCompile Include="contrib\irrXML\irrXML.cpp" />
-    <ClCompile Include="contrib\ConvertUTF\ConvertUTF.c">
+    <ClCompile Include="src\contrib\irrXML\irrXML.cpp" />
+    <ClCompile Include="src\contrib\ConvertUTF\ConvertUTF.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
     </ClCompile>
-    <ClCompile Include="contrib\unzip\ioapi.c">
+    <ClCompile Include="src\contrib\unzip\ioapi.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
     </ClCompile>
-    <ClCompile Include="contrib\unzip\unzip.c">
+    <ClCompile Include="src\contrib\unzip\unzip.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
     </ClCompile>
-    <ClCompile Include="contrib\poly2tri\poly2tri\common\shapes.cc" />
-    <ClCompile Include="contrib\poly2tri\poly2tri\sweep\advancing_front.cc" />
-    <ClCompile Include="contrib\poly2tri\poly2tri\sweep\cdt.cc" />
-    <ClCompile Include="contrib\poly2tri\poly2tri\sweep\sweep.cc" />
-    <ClCompile Include="contrib\poly2tri\poly2tri\sweep\sweep_context.cc" />
-    <ClCompile Include="contrib\clipper\clipper.cpp" />
-    <ClCompile Include="contrib\openddlparser\code\OpenDDLParser.cpp" />
-    <ClCompile Include="contrib\openddlparser\code\DDLNode.cpp" />
-    <ClCompile Include="contrib\openddlparser\code\OpenDDLCommon.cpp" />
-    <ClCompile Include="contrib\openddlparser\code\OpenDDLExport.cpp" />
-    <ClCompile Include="contrib\openddlparser\code\Value.cpp" />
+    <ClCompile Include="src\contrib\poly2tri\poly2tri\common\shapes.cc" />
+    <ClCompile Include="src\contrib\poly2tri\poly2tri\sweep\advancing_front.cc" />
+    <ClCompile Include="src\contrib\poly2tri\poly2tri\sweep\cdt.cc" />
+    <ClCompile Include="src\contrib\poly2tri\poly2tri\sweep\sweep.cc" />
+    <ClCompile Include="src\contrib\poly2tri\poly2tri\sweep\sweep_context.cc" />
+    <ClCompile Include="src\contrib\clipper\clipper.cpp" />
+    <ClCompile Include="src\contrib\openddlparser\code\OpenDDLParser.cpp" />
+    <ClCompile Include="src\contrib\openddlparser\code\DDLNode.cpp" />
+    <ClCompile Include="src\contrib\openddlparser\code\OpenDDLCommon.cpp" />
+    <ClCompile Include="src\contrib\openddlparser\code\OpenDDLExport.cpp" />
+    <ClCompile Include="src\contrib\openddlparser\code\Value.cpp" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
