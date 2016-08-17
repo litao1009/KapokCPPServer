@@ -11,6 +11,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KapokClient", "KapokClient\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL2-static", "SDL2\SDL2-static.vcxproj", "{773D47B6-DA0C-388D-B713-D7FFB5264CBC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "externals", "externals", "{9915C6B5-164B-40EF-B8C7-34BDDD83B7B7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlibstatic", "externals\zlib\zlibstatic.vcxproj", "{FCA91B5C-EAD9-398C-9924-88D1DDD22168}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "assimp", "externals\assimp\assimp.vcxproj", "{FD6CB567-7BE0-32E8-B589-CF63C54BB6B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -50,8 +56,24 @@ Global
 		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Release|x64.ActiveCfg = Release|x64
 		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Release|x64.Build.0 = Release|x64
 		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Release|x86.ActiveCfg = Release|x64
+		{FCA91B5C-EAD9-398C-9924-88D1DDD22168}.Debug|x64.ActiveCfg = Debug|Win32
+		{FCA91B5C-EAD9-398C-9924-88D1DDD22168}.Debug|x86.ActiveCfg = Debug|Win32
+		{FCA91B5C-EAD9-398C-9924-88D1DDD22168}.Debug|x86.Build.0 = Debug|Win32
+		{FCA91B5C-EAD9-398C-9924-88D1DDD22168}.Release|x64.ActiveCfg = Release|Win32
+		{FCA91B5C-EAD9-398C-9924-88D1DDD22168}.Release|x86.ActiveCfg = Release|Win32
+		{FCA91B5C-EAD9-398C-9924-88D1DDD22168}.Release|x86.Build.0 = Release|Win32
+		{FD6CB567-7BE0-32E8-B589-CF63C54BB6B5}.Debug|x64.ActiveCfg = Debug|Win32
+		{FD6CB567-7BE0-32E8-B589-CF63C54BB6B5}.Debug|x86.ActiveCfg = Debug|Win32
+		{FD6CB567-7BE0-32E8-B589-CF63C54BB6B5}.Debug|x86.Build.0 = Debug|Win32
+		{FD6CB567-7BE0-32E8-B589-CF63C54BB6B5}.Release|x64.ActiveCfg = Release|Win32
+		{FD6CB567-7BE0-32E8-B589-CF63C54BB6B5}.Release|x86.ActiveCfg = Release|Win32
+		{FD6CB567-7BE0-32E8-B589-CF63C54BB6B5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FCA91B5C-EAD9-398C-9924-88D1DDD22168} = {9915C6B5-164B-40EF-B8C7-34BDDD83B7B7}
+		{FD6CB567-7BE0-32E8-B589-CF63C54BB6B5} = {9915C6B5-164B-40EF-B8C7-34BDDD83B7B7}
 	EndGlobalSection
 EndGlobal
