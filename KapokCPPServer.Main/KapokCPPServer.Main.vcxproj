@@ -71,22 +71,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)KapokCPPServer/include;$(SolutionDir)SDL2/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)KapokCPPServer/include;$(SolutionDir)externals/SDL2/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)KapokCPPServer/include;$(SolutionDir)SDL2/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)KapokCPPServer/include;$(SolutionDir)externals/SDL2/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)KapokCPPServer/include;$(SolutionDir)SDL2/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)KapokCPPServer/include;$(SolutionDir)externals/SDL2/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)KapokCPPServer/include;$(SolutionDir)SDL2/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)KapokCPPServer/include;$(SolutionDir)externals/SDL2/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -160,11 +160,14 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\externals\assimp\assimp.vcxproj">
+      <Project>{fd6cb567-7be0-32e8-b589-cf63c54bb6b5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\SDL2\SDL2-static.vcxproj">
+      <Project>{773d47b6-da0c-388d-b713-d7ffb5264cbc}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\KapokCPPServer\KapokCPPServer.vcxproj">
       <Project>{49a8e67d-6b65-4f49-b7b0-47aca9005ab6}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\SDL2\SDL2-static.vcxproj">
-      <Project>{773d47b6-da0c-388d-b713-d7ffb5264cbc}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

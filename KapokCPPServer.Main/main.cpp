@@ -8,7 +8,7 @@
 #include "WSServer.h"
 #include "WSSession.h"
 
-#include "SDL.h"
+#include "SDL2/SDL.h"
 
 #include <vector>
 #include <iostream>
