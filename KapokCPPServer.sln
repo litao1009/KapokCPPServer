@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KapokCPPServer", "KapokCPPServer\KapokCPPServer.vcxproj", "{49A8E67D-6B65-4F49-B7B0-47ACA9005AB6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CPPNet", "CPPNet\CPPNet.vcxproj", "{49A8E67D-6B65-4F49-B7B0-47ACA9005AB6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KapokCPPServer.Main", "KapokCPPServer.Main\KapokCPPServer.Main.vcxproj", "{7D61A6D0-7001-4D38-876D-A443B4DEAC11}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{7D61A6D0-7001-4D38-876D-A443B4DEAC11}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KapokClient", "KapokClient\KapokClient.vcxproj", "{1B32E6D7-6A9E-49B5-85B2-078ACFB405EE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestClient", "TestClient\TestClient.vcxproj", "{1B32E6D7-6A9E-49B5-85B2-078ACFB405EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "externals", "externals", "{9915C6B5-164B-40EF-B8C7-34BDDD83B7B7}"
 EndProject
