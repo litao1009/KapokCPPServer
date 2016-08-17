@@ -100,6 +100,10 @@ ErrCode WSSession::Close()
 bool WSSession::Send(const boost::asio::const_buffer& buffer, beast::websocket::opcode opCode)
 {
 	auto& imp_ = *ImpUPtr_;
+	auto bufSize = boost::asio::buffer_size(buffer);
+
+	imp_.RecvBuf_.consume(imp_.RecvBuf_.size());
+	imp_.RecvBuf_.commit(boost::asio::buffer_copy(imp_.RecvBuf_.prepare(bufSize), buffer));
 
 	imp_.WSStream_.set_option(beast::websocket::message_type(opCode));
 

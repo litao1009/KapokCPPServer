@@ -91,7 +91,7 @@ int main()
 
 			std::cout << s << std::endl;
 
-			session->Send(boost::asio::buffer(s), op);
+			session->Send(boost::asio::buffer(s + " call back"), op);
 		});
 
 		session->GetListener().OnPostSend_.connect([](const ErrCode& ec, WSSessionSPtr& session)
