@@ -71,22 +71,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/beast/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/beast/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/beast/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/beast/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
