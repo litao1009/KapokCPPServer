@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TCPServer Port="6001" Thread="1" />
+<WebsocketServer Port="6002" Thread="1" />

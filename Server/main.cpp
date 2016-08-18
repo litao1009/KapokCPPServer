@@ -15,12 +15,47 @@
 
 #include <boost/asio.hpp>
 
+#include <boost/property_tree/xml_parser.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
+
 #ifdef main
 #undef main
 #endif // main
 
 int main()
 {
+	auto tcpPort = 6001U, tcpThread = 1U;
+	auto wsPort = 6002U, wsThread = 1U;
+	{
+		try
+		{
+			boost::filesystem::path configXML("config.xml");
+			if (boost::filesystem::exists(configXML))
+			{
+				boost::property_tree::ptree pt;
+				boost::filesystem::fstream configf(configXML);
+				auto flags = boost::property_tree::xml_parser::no_comments | boost::property_tree::xml_parser::trim_whitespace;
+				boost::property_tree::read_xml(configf, pt, flags);
+
+				auto tmptcpPort = pt.get<decltype(tcpPort)>("TCPServer.<xmlattr>.Port");
+				auto tmptcpThread = pt.get<decltype(tcpThread)>("TCPServer.<xmlattr>.Thread");
+				auto tmpwsPort = pt.get<decltype(wsPort)>("WebsocketServer.<xmlattr>.Port");
+				auto tmpwsThread = pt.get<decltype(wsThread)>("WebsocketServer.<xmlattr>.Thread");
+
+				tcpPort = tmptcpPort;
+				tcpThread = tmptcpThread;
+				wsPort = tmpwsPort;
+				wsThread = tmpwsThread;
+			}
+		}
+		catch (...)
+		{
+
+		}
+		
+	}
+
 	{//Init SDL
 		/*auto ret =*/ SDL_Init(SDL_INIT_EVENTS);
 		auto window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
@@ -29,7 +64,7 @@ int main()
 
 	//{TCPServer
 	AsyncThreadPool tcpThreadPool;
-	tcpThreadPool.Start(1);
+	tcpThreadPool.Start(tcpThread);
 
 	TCPServer tcpServer(tcpThreadPool.GetIOService());
 
@@ -59,12 +94,12 @@ int main()
 		tcpsessionList.push_back(session);
 	});
 
-	tcpServer.StartAccept( 6001 );
+	tcpServer.StartAccept( tcpPort );
 	//}
 
 	//{WSServer
 	AsyncThreadPool wsThreadPool;
-	wsThreadPool.Start(1);
+	wsThreadPool.Start(wsThread);
 
 	WSServer wsServer(wsThreadPool.GetIOService());
 	std::vector<WSSessionSPtr> wssessionList;
@@ -113,7 +148,7 @@ int main()
 		auto i = 0;
 	});
 
-	wsServer.StartAccept(6002);
+	wsServer.StartAccept(wsPort);
 	//}
 
 
