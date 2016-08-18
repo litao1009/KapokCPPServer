@@ -10,6 +10,7 @@
 #include <vector>
 
 #include <boost/property_tree/xml_parser.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
@@ -40,6 +41,8 @@ public:
 	WSServer		WebsocketServer_{ WebsocketThreadPool_.GetIOService() };
 	std::vector<WSSessionSPtr>	WSSessionList_;
 	std::mutex		WSMutex_;
+
+	AsyncThreadPool	LogicThreadPool_;
 
 public:
 
@@ -110,35 +113,12 @@ public:
 	{
 		WebsocketServer_.GetListener().OnAccept_.connect([this](WSSessionSPtr& session)
 		{
-			session->GetListener().OnMessage_.connect([](const beast::websocket::opcode& op, WSSessionSPtr& session)
+			session->GetListener().OnMessage_.connect([this](const beast::websocket::opcode& op, WSSessionSPtr& session)
 			{
-				auto& recvBuf = session->GetRecvBuf();
-
-				auto cb = beast::consumed_buffers(recvBuf.data(), 0);
-
-				std::string s;
-				s.reserve(boost::asio::buffer_size(cb));
-
-				for (auto const& buffer : cb)
+				LogicThreadPool_.Post([this, op, sessionPtr = std::move(session)]() mutable
 				{
-					s.append(boost::asio::buffer_cast<const char*>(buffer), boost::asio::buffer_size(buffer));
-				}
-
-				std::cout << s << std::endl;
-
-				session->Send(boost::asio::buffer(s + " call back"), op);
-			});
-
-			session->GetListener().OnPostSend_.connect([](const ErrCode& ec, WSSessionSPtr& session)
-			{
-				if (ec)
-				{
-					session->Close();
-				}
-				else
-				{
-					session->Receive();
-				}
+					DispatchMsg(op, sessionPtr);
+				});
 			});
 
 			session->Receive();
@@ -151,6 +131,45 @@ public:
 
 		WebsocketThreadPool_.Start(ConfigInfo_.WebsocketThread_);
 		WebsocketServer_.StartAccept(ConfigInfo_.WebsocketPort);
+	}
+
+	void	DispatchMsg(const beast::websocket::opcode& op, WSSessionSPtr& session)
+	{
+		auto& recvBuf = session->GetRecvBuf();
+
+		std::string s;
+		{
+			auto cb = beast::consumed_buffers(recvBuf.data(), 0);
+			s.reserve(boost::asio::buffer_size(cb));
+			for (auto const& buffer : cb)
+			{
+				s.append(boost::asio::buffer_cast<const char*>(buffer), boost::asio::buffer_size(buffer));
+			}
+		}
+
+		recvBuf.consume(recvBuf.size());
+
+		try
+		{
+			std::istringstream is(s);
+			boost::property_tree::ptree pt;
+			boost::property_tree::json_parser::read_json(is, pt);
+
+			auto messageName = pt.get_optional<std::string>("MessageName");
+			if (!messageName)
+			{
+				return;
+			}
+
+			if (*messageName == "RenderRequest")
+			{
+
+			}
+		}
+		catch (const std::exception&)
+		{
+
+		}
 	}
 };
 
@@ -175,6 +194,8 @@ void KapokServer::Start()
 		imp_.StartTCPServer();
 
 		imp_.StartWebsocketServer();
+
+		imp_.LogicThreadPool_.Start(1);
 	}
 	catch (const std::exception& e)
 	{
@@ -185,6 +206,8 @@ void KapokServer::Start()
 void KapokServer::Stop()
 {
 	auto& imp_ = *ImpUPtr_;
+
+	imp_.LogicThreadPool_.Stop();
 
 	imp_.TcpServer_.StopAccept();
 	imp_.TcpThreadPool_.Stop();
@@ -197,6 +220,7 @@ void KapokServer::Join()
 {
 	auto& imp_ = *ImpUPtr_;
 
+	ImpUPtr_->LogicThreadPool_.Join();
 	imp_.TcpThreadPool_.Join();
 	imp_.WebsocketThreadPool_.Join();
 }

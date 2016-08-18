@@ -103,7 +103,8 @@
       <AdditionalDependencies>winmm.lib;version.lib;Imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y</Command>
+      <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y
+xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -121,7 +122,8 @@
       <AdditionalDependencies>winmm.lib;version.lib;Imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y</Command>
+      <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y
+xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -143,7 +145,8 @@
       <AdditionalDependencies>winmm.lib;version.lib;Imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y</Command>
+      <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y
+xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -165,7 +168,8 @@
       <AdditionalDependencies>winmm.lib;version.lib;Imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y</Command>
+      <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y
+xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -184,6 +188,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IReflection.h" />
     <ClInclude Include="KapokServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
