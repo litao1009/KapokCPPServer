@@ -34,10 +34,12 @@ public:
 	AsyncThreadPool	TcpThreadPool_;
 	TCPServer		TcpServer_{ TcpThreadPool_.GetIOService() };
 	std::vector<TcpSessionSPtr>	TcpSessionList_;
+	std::mutex		TcpMutex_;
 	
 	AsyncThreadPool	WebsocketThreadPool_;
 	WSServer		WebsocketServer_{ WebsocketThreadPool_.GetIOService() };
 	std::vector<WSSessionSPtr>	WSSessionList_;
+	std::mutex		WSMutex_;
 
 public:
 
@@ -93,7 +95,11 @@ public:
 
 			session->Receive();
 
-			TcpSessionList_.push_back(session);
+			{
+				std::unique_lock<decltype(TcpMutex_)> lock(TcpMutex_);
+				TcpSessionList_.push_back(std::move(session));
+			}
+			
 		});
 
 		TcpThreadPool_.Start(ConfigInfo_.TcpThread_);
@@ -137,7 +143,10 @@ public:
 
 			session->Receive();
 
-			WSSessionList_.push_back(session);
+			{
+				std::unique_lock<decltype(TcpMutex_)> lock(TcpMutex_);
+				WSSessionList_.push_back(std::move(session));
+			}
 		});
 
 		WebsocketThreadPool_.Start(ConfigInfo_.WebsocketThread_);

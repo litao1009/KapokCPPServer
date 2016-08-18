@@ -274,6 +274,10 @@ TcpSession::~TcpSession()
 
 }
 
+TcpSession::TcpSession(TcpSession && rhs):ImpUPtr_(std::move(rhs.ImpUPtr_))
+{
+}
+
 bool TcpSession::Receive()
 {
 	auto& imp_ = *ImpUPtr_;

@@ -19,6 +19,8 @@ public:
 
 	WSSession(const WSSession&) = delete;
 
+	WSSession(WSSession&& rhs);
+
 public:
 
 	using	RecvBuf = std::vector<char>;

@@ -20,6 +20,8 @@ public:
 
 	TcpSession(const TcpSession&) = delete;
 
+	TcpSession(TcpSession&& rhs);
+
 public:
 
 	using BufferType = std::vector<uint8_t>;

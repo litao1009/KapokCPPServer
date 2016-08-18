@@ -37,6 +37,10 @@ AsyncThreadPool::~AsyncThreadPool()
 	}
 }
 
+AsyncThreadPool::AsyncThreadPool(AsyncThreadPool && rhs) :ImpUPtr_(std::move(rhs.ImpUPtr_))
+{
+}
+
 void AsyncThreadPool::Start(uint32_t ThreadNr)
 {
 	auto& imp_ = *ImpUPtr_;

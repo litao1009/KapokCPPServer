@@ -58,6 +58,11 @@ WSServer::WSServer(IOService& ios):ImpUPtr_(std::make_unique<Imp>(ios))
 
 }
 
+WSServer::WSServer(WSServer&& rhs) : ImpUPtr_(std::move(rhs.ImpUPtr_))
+{
+
+}
+
 WSServer::~WSServer()
 {
 

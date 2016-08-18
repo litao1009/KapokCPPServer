@@ -21,6 +21,8 @@ public:
 
 	TCPClient(const TCPClient&) = delete;
 
+	TCPClient(TCPClient&& rhs);
+
 public:
 
 	class	Listener

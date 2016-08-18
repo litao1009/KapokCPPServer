@@ -20,6 +20,8 @@ public:
 
 	WSServer(const WSServer&) = delete;
 
+	WSServer(WSServer&& rhs);
+
 public:
 
 	class	Listener

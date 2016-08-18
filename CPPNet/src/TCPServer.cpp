@@ -48,6 +48,10 @@ TCPServer::~TCPServer()
 
 }
 
+TCPServer::TCPServer(TCPServer && rhs) :ImpUPtr_(std::move(rhs.ImpUPtr_))
+{
+}
+
 ErrCode TCPServer::StartAccept(uint16_t listenPort)
 {
 	ErrCode ec;

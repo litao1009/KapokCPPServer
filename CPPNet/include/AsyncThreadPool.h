@@ -33,6 +33,8 @@ public:
 
 	AsyncThreadPool(const AsyncThreadPool&) = delete;
 
+	AsyncThreadPool(AsyncThreadPool&& rhs);
+
 public:
 
 	void				Start(uint32_t ThreadNr);

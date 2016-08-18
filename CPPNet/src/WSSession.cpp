@@ -74,6 +74,10 @@ WSSession::~WSSession()
 
 }
 
+WSSession::WSSession(WSSession && rhs) :ImpUPtr_(std::move(rhs.ImpUPtr_))
+{
+}
+
 bool WSSession::Receive()
 {
 	auto& imp_ = *ImpUPtr_;

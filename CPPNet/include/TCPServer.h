@@ -20,6 +20,8 @@ public:
 
 	TCPServer(const TCPServer&) = delete;
 
+	TCPServer(TCPServer&& rhs);
+
 public:
 
 	class	Listener

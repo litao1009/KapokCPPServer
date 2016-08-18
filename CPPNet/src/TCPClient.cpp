@@ -24,6 +24,10 @@ TCPClient::~TCPClient()
 
 }
 
+TCPClient::TCPClient(TCPClient && rhs):ImpUPtr_(std::move(rhs.ImpUPtr_))
+{
+}
+
 std::tuple<ErrCode, TcpSessionSPtr> TCPClient::CreateSession()
 {
 	auto& imp_ = *ImpUPtr_;
