@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\Processor">
+      <UniqueIdentifier>{375957b3-5341-4393-8059-bcbcb2757af3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,6 +24,12 @@
     <ClCompile Include="KapokServer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Processor\RenderRequestProc.cpp">
+      <Filter>源文件\Processor</Filter>
+    </ClCompile>
+    <ClCompile Include="Processor\IProcessor.cpp">
+      <Filter>源文件\Processor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KapokServer.h">
@@ -28,6 +37,12 @@
     </ClInclude>
     <ClInclude Include="IReflection.h">
       <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\IProcessor.h">
+      <Filter>源文件\Processor</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\RenderRequestProc.h">
+      <Filter>源文件\Processor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

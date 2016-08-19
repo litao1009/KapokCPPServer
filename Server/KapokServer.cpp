@@ -6,11 +6,13 @@
 #include "WSServer.h"
 #include "WSSession.h"
 
+#include "Processor/IProcessor.h"
+
 #include <iostream>
 #include <vector>
 
 #include <boost/property_tree/xml_parser.hpp>
-#include <boost/property_tree/json_parser.hpp>
+
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
@@ -42,7 +44,7 @@ public:
 	std::vector<WSSessionSPtr>	WSSessionList_;
 	std::mutex		WSMutex_;
 
-	AsyncThreadPool	LogicThreadPool_;
+	AsyncThreadPool	ProcThreadPool_;
 
 public:
 
@@ -115,9 +117,9 @@ public:
 		{
 			session->GetListener().OnMessage_.connect([this](const beast::websocket::opcode& op, WSSessionSPtr& session)
 			{
-				LogicThreadPool_.Post([this, op, sessionPtr = std::move(session)]() mutable
+				ProcThreadPool_.Post([this, op, sessionPtr = std::move(session)]() mutable
 				{
-					DispatchMsg(op, sessionPtr);
+					IProcessor::DispatchMsg(op, sessionPtr);
 				});
 			});
 
@@ -131,45 +133,6 @@ public:
 
 		WebsocketThreadPool_.Start(ConfigInfo_.WebsocketThread_);
 		WebsocketServer_.StartAccept(ConfigInfo_.WebsocketPort);
-	}
-
-	void	DispatchMsg(const beast::websocket::opcode& op, WSSessionSPtr& session)
-	{
-		auto& recvBuf = session->GetRecvBuf();
-
-		std::string s;
-		{
-			auto cb = beast::consumed_buffers(recvBuf.data(), 0);
-			s.reserve(boost::asio::buffer_size(cb));
-			for (auto const& buffer : cb)
-			{
-				s.append(boost::asio::buffer_cast<const char*>(buffer), boost::asio::buffer_size(buffer));
-			}
-		}
-
-		recvBuf.consume(recvBuf.size());
-
-		try
-		{
-			std::istringstream is(s);
-			boost::property_tree::ptree pt;
-			boost::property_tree::json_parser::read_json(is, pt);
-
-			auto messageName = pt.get_optional<std::string>("MessageName");
-			if (!messageName)
-			{
-				return;
-			}
-
-			if (*messageName == "RenderRequest")
-			{
-
-			}
-		}
-		catch (const std::exception&)
-		{
-
-		}
 	}
 };
 
@@ -195,7 +158,7 @@ void KapokServer::Start()
 
 		imp_.StartWebsocketServer();
 
-		imp_.LogicThreadPool_.Start(1);
+		imp_.ProcThreadPool_.Start(1);
 	}
 	catch (const std::exception& e)
 	{
@@ -207,7 +170,7 @@ void KapokServer::Stop()
 {
 	auto& imp_ = *ImpUPtr_;
 
-	imp_.LogicThreadPool_.Stop();
+	imp_.ProcThreadPool_.Stop();
 
 	imp_.TcpServer_.StopAccept();
 	imp_.TcpThreadPool_.Stop();
@@ -220,7 +183,7 @@ void KapokServer::Join()
 {
 	auto& imp_ = *ImpUPtr_;
 
-	ImpUPtr_->LogicThreadPool_.Join();
+	ImpUPtr_->ProcThreadPool_.Join();
 	imp_.TcpThreadPool_.Join();
 	imp_.WebsocketThreadPool_.Join();
 }

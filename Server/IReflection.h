@@ -16,64 +16,80 @@ protected:
 public:
 
 	template<typename DerivedT>
-	class IDerived : public BaseT
+	class ReflectionImp : public BaseT
 	{
 	public:
 
-		using	IBase = BaseT;
-		using	ID = IDerived<DerivedT>;
+		using	ReflectionType = ReflectionImp<DerivedT>;
 
-		static BaseSPtr	Factory()
+		static decltype(auto)	Factory()
 		{
 			return std::make_shared<DerivedT>();
 		}
 
-	protected:
+	private:
 
 		class	Context
 		{
 		public:
 
-			Context()
+			Context(const std::string& key)
 			{
-				BaseT::Register(typeid(DerivedT).name(), std::bind(DerivedT::Factory));
+				BaseT::Register(key, std::bind(DerivedT::Factory));
 			}
+
+			Context():Context(typeid(DerivedT).name())
+			{}
 		};
 
 		static	Context	sContext;
+
+		using	ContextType = Context;
 	};
 
 public:
 
-	static	BaseSPtr	Create(const std::string& className)
+	static	decltype(auto)	CreateByClassName(const std::string& className)
 	{
-		auto& genMap_ = _GetGenMap();
-
-		auto itor = genMap_.find("class " + className);
-		if ( itor != genMap_.end() )
-		{
-			return itor->second();
-		}
-
-		return nullptr;
+		return _Create("class " + className);
 	}
 
-	static	void Register(const std::string& className, const ClassGen& genFtr)
+	static	decltype(auto)	CreateByKey(const std::string& key)
+	{
+		return _Create(key);
+	}
+
+	static	void Register(const std::string& key, const ClassGen& genFtr)
 	{
 		auto& genMap_ = _GetGenMap();
 
-		genMap_.emplace(className, genFtr);
+		genMap_.emplace(key, genFtr);
 	}
 
 private:
 
-	typedef	std::map<std::string, ClassGen>	GenMapType;
-	static	GenMapType&	_GetGenMap()
+	static	BaseSPtr	_Create(const std::string& key)
 	{
-		static	GenMapType genMap;
-		return genMap;
+		auto& genMap_ = _GetGenMap();
+
+		auto itor = genMap_.find(key);
+		if (itor != genMap_.end())
+		{
+			return itor->second();
+		}
+
+		return {};
+	}
+
+	static	decltype(auto)	_GetGenMap()
+	{
+		static	std::map<std::string, ClassGen> genMap;
+		return (genMap);
 	}
 };
 
 #define IMPLEMNET_REFLECTION(DerivedT)	\
-	DerivedT::Context	IReflection<DerivedT::IBase>::IDerived<DerivedT>::sContext;
+	DerivedT::Context	DerivedT::ReflectionType::sContext;
+
+#define IMPLEMNET_REFLECTION_WITH_KEY(DerivedT, key)	\
+	DerivedT::Context	DerivedT::ReflectionType::sContext(#key);
