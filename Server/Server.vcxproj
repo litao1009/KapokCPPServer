@@ -71,22 +71,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/beast/include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/beast/include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/beast/include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/beast/include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -177,6 +177,7 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Processor\IProcessor.cpp" />
     <ClCompile Include="Processor\RenderRequestProc.cpp" />
+    <ClCompile Include="ServerTestUnit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\externals\assimp\assimp.vcxproj">
@@ -194,6 +195,7 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
     <ClInclude Include="KapokServer.h" />
     <ClInclude Include="Processor\IProcessor.h" />
     <ClInclude Include="Processor\RenderRequestProc.h" />
+    <ClInclude Include="ServerTestUnit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

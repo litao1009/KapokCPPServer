@@ -86,6 +86,14 @@ private:
 		static	std::map<std::string, ClassGen> genMap;
 		return (genMap);
 	}
+
+protected:
+
+	static	decltype(auto)	GetGenMap()
+	{
+		const auto& map = _GetGenMap();
+		return (map);
+	}
 };
 
 #define IMPLEMNET_REFLECTION(DerivedT)	\

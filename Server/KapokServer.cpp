@@ -119,7 +119,7 @@ public:
 			{
 				ProcThreadPool_.Post([this, op, sessionPtr = std::move(session)]() mutable
 				{
-					IProcessor::DispatchMsg(op, sessionPtr);
+					IProcessor::DispatchMsg(ProcThreadPool_, op, sessionPtr);
 				});
 			});
 

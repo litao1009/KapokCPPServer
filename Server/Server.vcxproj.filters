@@ -30,19 +30,25 @@
     <ClCompile Include="Processor\IProcessor.cpp">
       <Filter>源文件\Processor</Filter>
     </ClCompile>
+    <ClCompile Include="ServerTestUnit.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KapokServer.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="IReflection.h">
-      <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="Processor\IProcessor.h">
       <Filter>源文件\Processor</Filter>
     </ClInclude>
     <ClInclude Include="Processor\RenderRequestProc.h">
       <Filter>源文件\Processor</Filter>
+    </ClInclude>
+    <ClInclude Include="IReflection.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerTestUnit.h">
+      <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,8 +7,12 @@
 #undef main
 #endif // main
 
+#include "ServerTestUnit.h"
+
 int main()
 {
+	//ServerTestUnit::Run();
+
 	{//Init SDL
 		/*auto ret =*/ SDL_Init(SDL_INIT_EVENTS);
 		auto window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
