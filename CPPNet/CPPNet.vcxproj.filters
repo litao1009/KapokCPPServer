@@ -51,6 +51,18 @@
     <ClInclude Include="include\WSPredef.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\WSPPSession.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WSPPPredef.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WSPPServer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WSPPSessionFwd.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\async\Proactor.cpp">
@@ -72,6 +84,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\WSSession.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WSPPServer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WSPPSession.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
