@@ -26,12 +26,8 @@ public:
 
 public:
 
-	void	Receive(WSSessionSPtr& session, bool consume)
+	void	Receive(WSSessionSPtr& session)
 	{
-		if (consume)
-		{
-			RecvBuf_.consume(RecvBuf_.size());
-		}
 		
 		WSStream_.async_read_frame(FrameInfo_, RecvBuf_, [this, sessionPtr = std::move(session)](const ErrCode& ec) mutable
 		{
@@ -40,13 +36,14 @@ public:
 				if (ec == beast::websocket::error::closed)
 				{
 					Listener_.OnClose_(ErrCode(), sessionPtr);
-					return;
 				}
+
+				return;
 			}
 		
-			if (!FrameInfo_.fin)
+			if (0 == FrameInfo_.fin)
 			{
-				Receive(sessionPtr, false);
+				Receive(sessionPtr);
 			}
 			else
 			{
@@ -82,7 +79,7 @@ bool WSSession::Receive()
 {
 	auto& imp_ = *ImpUPtr_;
 
-	imp_.Receive(shared_from_this(), true);
+	imp_.Receive(shared_from_this());
 
 	return true;
 }

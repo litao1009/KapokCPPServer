@@ -25,11 +25,14 @@ void IProcessor::DispatchMsg(AsyncThreadPool& threadPool, const beast::websocket
 
 	try
 	{
-		std::istringstream is(s);
-		Ptree pt;
-		boost::property_tree::json_parser::read_json(is, pt);
+		auto procInfo = std::make_shared<IProcessor::SProcInfo>(threadPool);
 
-		auto messageName = pt.get_optional<std::string>("MessageName");
+		std::istringstream is(s);
+		boost::property_tree::json_parser::read_json(is, procInfo->Content_);
+		procInfo->OpCode_ = op;
+		procInfo->Session_ = std::move(session);
+
+		auto messageName = procInfo->Content_.get_optional<std::string>("MessageName");
 		if (!messageName)
 		{
 			return;
@@ -38,7 +41,6 @@ void IProcessor::DispatchMsg(AsyncThreadPool& threadPool, const beast::websocket
 		auto proc = IProcessor::CreateByKey(*messageName);
 		if (proc)
 		{
-			auto procInfo = std::make_shared<IProcessor::SProcInfo>(threadPool);
 			proc->Process(procInfo);
 		}
 	}
@@ -48,17 +50,9 @@ void IProcessor::DispatchMsg(AsyncThreadPool& threadPool, const beast::websocket
 	}
 }
 
-bool IProcessor::WriteJson(std::string& output, const Ptree& input)
+std::string IProcessor::WriteJson(const Ptree& input)
 {
-	try
-	{
-		std::ostringstream os(output);
-		boost::property_tree::json_parser::write_json(os, input);
-
-		return true;
-	}
-	catch (const std::exception&)
-	{
-		return false;
-	}
+	std::stringstream ss;
+	boost::property_tree::json_parser::write_json(ss, input);
+	return ss.str();
 }

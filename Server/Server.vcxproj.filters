@@ -33,6 +33,9 @@
     <ClCompile Include="ServerTestUnit.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Processor\EchoProc.cpp">
+      <Filter>源文件\Processor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KapokServer.h">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="ServerTestUnit.h">
       <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\EchoProc.h">
+      <Filter>源文件\Processor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

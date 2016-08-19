@@ -126,8 +126,7 @@ void RenderRequestProc::Process(SProcInfoSPtr& procInfo)
 		assetResponse.add_child("AssetContent", assetContent);
 	}
 
-	std::string sendBuf;
-	IProcessor::WriteJson(sendBuf, assetResponse);
+	auto sendBuf = IProcessor::WriteJson(assetResponse);
 
 	auto& threadPool = info_.ThreadPool_;
 	info_.Session_->GetListener().OnPostSend_.connect([&threadPool](const auto& ec, WSSessionSPtr& session)
@@ -139,4 +138,6 @@ void RenderRequestProc::Process(SProcInfoSPtr& procInfo)
 
 
 	});
+
+	info_.Session_->Send(boost::asio::buffer(sendBuf), info_.OpCode_);
 }

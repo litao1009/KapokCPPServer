@@ -35,7 +35,7 @@ public:
 
 	static	void	DispatchMsg(AsyncThreadPool& threadPool, const beast::websocket::opcode& op, WSSessionSPtr& session);
 
-	static	bool	WriteJson(std::string& output, const Ptree& input);
+	static	std::string	WriteJson(const Ptree& input);
 
 public:
 

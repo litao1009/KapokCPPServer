@@ -175,6 +175,7 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
   <ItemGroup>
     <ClCompile Include="KapokServer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Processor\EchoProc.cpp" />
     <ClCompile Include="Processor\IProcessor.cpp" />
     <ClCompile Include="Processor\RenderRequestProc.cpp" />
     <ClCompile Include="ServerTestUnit.cpp" />
@@ -193,6 +194,7 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
   <ItemGroup>
     <ClInclude Include="IReflection.h" />
     <ClInclude Include="KapokServer.h" />
+    <ClInclude Include="Processor\EchoProc.h" />
     <ClInclude Include="Processor\IProcessor.h" />
     <ClInclude Include="Processor\RenderRequestProc.h" />
     <ClInclude Include="ServerTestUnit.h" />

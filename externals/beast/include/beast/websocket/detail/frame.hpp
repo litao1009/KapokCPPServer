@@ -203,8 +203,8 @@ read_fh1(frame_header& fh, DynamicBuffer& db,
     // reserved bits not cleared
     if(fh.rsv1 || fh.rsv2 || fh.rsv3)
     {
-        code = close_code::protocol_error;
-        return 0;
+//         code = close_code::protocol_error;
+//         return 0;
     }
     // reserved opcode
     if(is_reserved(fh.op))

@@ -115,10 +115,13 @@ public:
 	{
 		WebsocketServer_.GetListener().OnAccept_.connect([this](WSSessionSPtr& session)
 		{
+			std::cout << "On Accept" << std::endl;
 			session->GetListener().OnMessage_.connect([this](const beast::websocket::opcode& op, WSSessionSPtr& session)
 			{
+				std::cout << "On Message" << std::endl;
 				ProcThreadPool_.Post([this, op, sessionPtr = std::move(session)]() mutable
 				{
+					std::cout << "On Dispath" << std::endl;
 					IProcessor::DispatchMsg(ProcThreadPool_, op, sessionPtr);
 				});
 			});
