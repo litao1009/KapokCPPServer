@@ -114,7 +114,7 @@ void RenderRequestProc::Process(SProcInfoSPtr& procInfo)
 			}
 
 			auto fileSize = static_cast<uint32_t>(boost::filesystem::file_size(pt));
-			boost::filesystem::ifstream fs(pt);
+			boost::filesystem::ifstream fs(pt, std::ios::binary);
 
 			objBuf.resize(fileSize, 0);
 			fs.read(&(objBuf[0]), objBuf.size());
