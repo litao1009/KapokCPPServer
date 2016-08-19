@@ -114,10 +114,10 @@ void RenderRequestProc::Process(SProcInfoSPtr& procInfo)
 			}
 
 			auto fileSize = static_cast<uint32_t>(boost::filesystem::file_size(pt));
-			boost::filesystem::fstream fs(pt);
+			boost::filesystem::ifstream fs(pt);
 
 			objBuf.resize(fileSize, 0);
-			fs.write(&(objBuf[0]), objBuf.size());
+			fs.read(&(objBuf[0]), objBuf.size());
 		}
 
 		Ptree assetContent;
@@ -129,15 +129,10 @@ void RenderRequestProc::Process(SProcInfoSPtr& procInfo)
 	auto sendBuf = IProcessor::WriteJson(assetResponse);
 
 	auto& threadPool = info_.ThreadPool_;
-	info_.Session_->GetListener().OnPostSend_.connect([&threadPool](const auto& ec, WSSessionSPtr& session)
+	info_.Session_->GetListener().OnPostSend_.connect([&threadPool](auto& session)
 	{
-		if (ec)
-		{
-			return;
-		}
-
-
+		
 	});
 
-	info_.Session_->Send(boost::asio::buffer(sendBuf), info_.OpCode_);
+	info_.Session_->Send(boost::asio::buffer(sendBuf), info_.RawMsg_->get_opcode());
 }

@@ -7,4 +7,6 @@
 #include "websocketpp/config/asio_no_tls.hpp"
 #include "websocketpp/frame.hpp"
 
-using	MessageType = websocketpp::connection<websocketpp::config::asio>::message_ptr;
+using	MessageType = websocketpp::connection<websocketpp::config::asio>::message_type;
+using	MessagePtr = websocketpp::connection<websocketpp::config::asio>::message_ptr;
+using	ConnectionType = websocketpp::connection<websocketpp::config::asio>;

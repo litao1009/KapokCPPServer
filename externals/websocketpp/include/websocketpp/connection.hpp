@@ -58,6 +58,8 @@ namespace websocketpp {
  */
 typedef lib::function<void(connection_hdl)> open_handler;
 
+typedef lib::function<void(connection_hdl)> send_handler;
+
 /// The type and function signature of a close handler
 /**
  * The close handler is called once for every successfully established
@@ -340,6 +342,10 @@ public:
     ///////////////////////////
     // Set Handler Callbacks //
     ///////////////////////////
+
+	void set_send_handler(send_handler h) {
+		m_send_handler = h;
+	}
 
     /// Set open handler
     /**
@@ -1500,6 +1506,7 @@ private:
     connection_hdl          m_connection_hdl;
 
     /// Handler objects
+	send_handler			m_send_handler;
     open_handler            m_open_handler;
     close_handler           m_close_handler;
     fail_handler            m_fail_handler;

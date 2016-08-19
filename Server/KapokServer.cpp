@@ -5,6 +5,8 @@
 #include "TcpSession.h"
 #include "WSServer.h"
 #include "WSSession.h"
+#include "WSPPServer.h"
+#include "WSPPSession.h"
 
 #include "Processor/IProcessor.h"
 
@@ -40,9 +42,11 @@ public:
 	std::mutex		TcpMutex_;
 	
 	AsyncThreadPool	WebsocketThreadPool_;
-	WSServer		WebsocketServer_{ WebsocketThreadPool_.GetIOService() };
-	std::vector<WSSessionSPtr>	WSSessionList_;
+	WSPPServer		WebsocketServer_{ WebsocketThreadPool_.GetIOService() };
+	std::vector<WSPPSessionSPtr>	WSSessionList_;
 	std::mutex		WSMutex_;
+
+	std::mutex		ConsoleMutex_;
 
 	AsyncThreadPool	ProcThreadPool_;
 
@@ -113,23 +117,20 @@ public:
 
 	void	StartWebsocketServer()
 	{
-		WebsocketServer_.GetListener().OnAccept_.connect([this](WSSessionSPtr& session)
+		WebsocketServer_.GetListener().OnAccept_.connect([this](auto& session)
 		{
-			std::cout << "On Accept" << std::endl;
-			session->GetListener().OnMessage_.connect([this](const beast::websocket::opcode& op, WSSessionSPtr& session)
+			session->GetListener().OnMessage_.connect([this](WSPPSessionSPtr& session, MessagePtr& msg)
 			{
-				std::cout << "On Message" << std::endl;
-				ProcThreadPool_.Post([this, op, sessionPtr = std::move(session)]() mutable
+				ProcThreadPool_.Post([this, msg, sessionPtr = std::move(session)]() mutable
 				{
-					std::cout << "On Dispath" << std::endl;
-					IProcessor::DispatchMsg(ProcThreadPool_, op, sessionPtr);
+					IProcessor::DispatchMsg(ProcThreadPool_, msg, sessionPtr);
 				});
 			});
 
 			session->Receive();
 
 			{
-				std::unique_lock<decltype(TcpMutex_)> lock(TcpMutex_);
+				std::unique_lock<decltype(WSMutex_)> lock(WSMutex_);
 				WSSessionList_.push_back(std::move(session));
 			}
 		});
@@ -152,6 +153,26 @@ KapokServer::~KapokServer()
 void KapokServer::Start()
 {
 	auto& imp_ = *ImpUPtr_;
+
+	auto& mutex_ = imp_.ConsoleMutex_;
+	
+	imp_.TcpThreadPool_.GetListener().OnStartThread_.connect([&mutex_]()
+	{
+		std::unique_lock<std::mutex> lock(mutex_);
+		std::cout << "TCP Thread: " << std::this_thread::get_id() << std::endl;
+	});
+
+	imp_.WebsocketThreadPool_.GetListener().OnStartThread_.connect([&mutex_]()
+	{
+		std::unique_lock<std::mutex> lock(mutex_);
+		std::cout << "Websocket Thread: " << std::this_thread::get_id() << std::endl;
+	});
+
+	imp_.ProcThreadPool_.GetListener().OnStartThread_.connect([&mutex_]()
+	{
+		std::unique_lock<std::mutex> lock(mutex_);
+		std::cout << "Processor Thread: " << std::this_thread::get_id() << std::endl;
+	});
 
 	try
 	{

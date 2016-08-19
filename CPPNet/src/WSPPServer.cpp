@@ -17,13 +17,19 @@ public:
 	IOService&	IOService_;
 	ServerType	WSServer_;
 	Listener	Listener_;
+	WSPPServer*	ThisPtr_{};
+
+public:
 
 	void	Init()
 	{
-		WSServer_.set_open_handler([this](websocketpp::connection_hdl connHDL)
+		WSServer_.set_access_channels(websocketpp::log::alevel::none);
+
+		WSServer_.set_open_handler([thisPtr = ThisPtr_](websocketpp::connection_hdl connHDL)
 		{
+			auto& imp_ = *(thisPtr->ImpUPtr_);
 			std::error_code ec;
-			auto conn = WSServer_.get_con_from_hdl(connHDL, ec);
+			auto conn = imp_.WSServer_.get_con_from_hdl(connHDL, ec);
 
 			auto session = std::make_shared<WSPPSession>(connHDL);
 			WSPPSessionWPtr sessionWPtr = session;
@@ -45,7 +51,17 @@ public:
 				auto sptr = sessionWPtr.lock();
 				sptr->GetListener().OnMessage_(sptr, msg);
 			});
+
+			conn->set_send_handler([sessionWPtr](websocketpp::connection_hdl connHDL)
+			{
+				auto sptr = sessionWPtr.lock();
+				sptr->GetListener().OnPostSend_(sptr);
+			});
+
+			imp_.Listener_.OnAccept_(session);
 		});
+
+		WSServer_.init_asio(&IOService_);
 
 // 		WSServer_.set_close_handler([this](websocketpp::connection_hdl sessionHDL)
 // 		{
@@ -62,7 +78,7 @@ public:
 WSPPServer::WSPPServer(IOService& ios):ImpUPtr_(std::make_unique<Imp>(ios))
 {
 	auto& imp_ = *ImpUPtr_;
-
+	imp_.ThisPtr_ = this;
 	imp_.Init();
 }
 
@@ -95,7 +111,7 @@ ErrCode WSPPServer::StopAccept()
 
 	std::error_code ec;
 	imp_.WSServer_.stop_listening(ec);
-	assert(ec);
+	assert(!ec);
 
 	return {};
 }

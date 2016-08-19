@@ -1922,6 +1922,10 @@ void connection<config>::handle_write_frame(lib::error_code const & ec)
             type::get_shared()
         ));
     }
+	else
+	{
+		m_send_handler(m_connection_hdl);
+	}
 }
 
 template <typename config>

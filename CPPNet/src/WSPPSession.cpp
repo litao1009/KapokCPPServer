@@ -1,5 +1,4 @@
 #include "WSPPSession.h"
-
 class	WSPPSession::Imp
 {
 public:
@@ -46,6 +45,13 @@ bool WSPPSession::Receive()
 bool WSPPSession::Send(const boost::asio::const_buffer& buffer, websocketpp::frame::opcode::value opCode)
 {
 	auto& imp_ = *ImpUPtr_;
+	
+	auto conn = std::static_pointer_cast<ConnectionType>(imp_.ConnHDL_.lock());
+
+	auto bufferData = boost::asio::buffer_cast<const void*>(buffer);
+	auto bufferSize = boost::asio::buffer_size(buffer);
+
+	conn->send(bufferData, bufferSize, opCode);
 
 	return true;
 }

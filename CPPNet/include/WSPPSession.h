@@ -31,8 +31,8 @@ public:
 		boost::signals2::signal<void(WSPPSessionSPtr&, const ErrCode&)>	OnError_;
 		boost::signals2::signal<void(WSPPSessionSPtr&)>					OnOpen_;
 		boost::signals2::signal<void(WSPPSessionSPtr&)>					OnClose_;
-		boost::signals2::signal<void(WSPPSessionSPtr&, const ErrCode&)>	OnPostSend_;
-		boost::signals2::signal<void(WSPPSessionSPtr&, MessageType&)>	OnMessage_;
+		boost::signals2::signal<void(WSPPSessionSPtr&)>					OnPostSend_;
+		boost::signals2::signal<void(WSPPSessionSPtr&, MessagePtr&)>	OnMessage_;
 	};
 
 public:

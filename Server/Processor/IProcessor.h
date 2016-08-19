@@ -2,8 +2,8 @@
 
 #include "IReflection.h"
 
-#include "WSPredef.h"
-#include "WSSession.h"
+#include "WSPPPredef.h"
+#include "WSPPSession.h"
 #include "AsyncThreadPool.h"
 
 #include <boost/property_tree/ptree.hpp>
@@ -24,8 +24,8 @@ public:
 
 		SProcInfo(AsyncThreadPool& pool) :ThreadPool_(pool) {}
 
-		beast::websocket::opcode	OpCode_;
-		WSSessionSPtr				Session_;
+		MessagePtr					RawMsg_;
+		WSPPSessionSPtr				Session_;
 		Ptree						Content_;
 		AsyncThreadPool&			ThreadPool_;
 	};
@@ -33,7 +33,7 @@ public:
 
 public:
 
-	static	void	DispatchMsg(AsyncThreadPool& threadPool, const beast::websocket::opcode& op, WSSessionSPtr& session);
+	static	void	DispatchMsg(AsyncThreadPool& threadPool, MessagePtr& msg, WSPPSessionSPtr& session);
 
 	static	std::string	WriteJson(const Ptree& input);
 

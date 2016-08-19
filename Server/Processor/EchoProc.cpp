@@ -13,19 +13,10 @@ void EchoProc::Process(SProcInfoSPtr& procInfo)
 
 	auto sendBuf = WriteJson(response);
 
-	procInfo->Session_->GetListener().OnPostSend_.connect([](const auto& ec, WSSessionSPtr& session)
+	procInfo->Session_->GetListener().OnPostSend_.connect([](auto& session)
 	{
-		if (ec)
-		{
-			return;
-		}
-
-		auto& curBuf = session->GetRecvBuf();
-		beast::streambuf buf;
-		std::swap(buf, curBuf);
-
 		session->Receive();
 	});
 
-	procInfo->Session_->Send(boost::asio::buffer(sendBuf), procInfo->OpCode_);
+	procInfo->Session_->Send(boost::asio::buffer(sendBuf), procInfo->RawMsg_->get_opcode());
 }
