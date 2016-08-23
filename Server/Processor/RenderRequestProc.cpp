@@ -14,6 +14,7 @@ void RenderRequestProc::Process(SProcInfoSPtr& procInfo)
 	auto& info_ = *procInfo;
 
 	ContentType assetResponse;
+	assetResponse.SetObject();
 	assetResponse.AddMember("MessageName", "AssetResponse", assetResponse.GetAllocator());
 	assetResponse.AddMember("AssetUUID", "sampleData", assetResponse.GetAllocator() );
 	assetResponse.AddMember("AssetType", "Obj", assetResponse.GetAllocator() );
