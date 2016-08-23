@@ -19,6 +19,9 @@
     <Filter Include="源文件\TestUnit">
       <UniqueIdentifier>{59f53705-a24a-4d33-a14d-7e48c8aaf11c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\message">
+      <UniqueIdentifier>{a509bc8f-c48a-4e99-a708-92d9d7150164}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,8 +42,14 @@
     <ClCompile Include="TestUnit\ServerTestUnit.cpp">
       <Filter>源文件\TestUnit</Filter>
     </ClCompile>
-    <ClCompile Include="TestUnit\PrepareSampleData.cpp">
+    <ClCompile Include="TestUnit\PrepareSampleData_Json.cpp">
       <Filter>源文件\TestUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestUnit\PrepareSampleData_Protobuf.cpp">
+      <Filter>源文件\TestUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="message\message.pb.cc">
+      <Filter>源文件\message</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -62,8 +71,14 @@
     <ClInclude Include="TestUnit\ServerTestUnit.h">
       <Filter>源文件\TestUnit</Filter>
     </ClInclude>
-    <ClInclude Include="TestUnit\PrepareSampleData.h">
+    <ClInclude Include="TestUnit\PrepareSampleData_Json.h">
       <Filter>源文件\TestUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="TestUnit\PrepareSampleData_Protobuf.h">
+      <Filter>源文件\TestUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="message\message.pb.h">
+      <Filter>源文件\message</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

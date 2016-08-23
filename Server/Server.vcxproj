@@ -71,22 +71,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(SolutionDir)externals/websocketpp/include;$(SolutionDir)externals/rapidjson/include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(SolutionDir)externals/websocketpp/include;$(SolutionDir)externals/libprotobuf/include;$(SolutionDir)externals/rapidjson/include;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(SolutionDir)externals/websocketpp/include;$(SolutionDir)externals/rapidjson/include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(SolutionDir)externals/websocketpp/include;$(SolutionDir)externals/libprotobuf/include;$(SolutionDir)externals/rapidjson/include;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(SolutionDir)externals/websocketpp/include;$(SolutionDir)externals/rapidjson/include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(SolutionDir)externals/websocketpp/include;$(SolutionDir)externals/libprotobuf/include;$(SolutionDir)externals/rapidjson/include;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)build\bin\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(SolutionDir)externals/websocketpp/include;$(SolutionDir)externals/rapidjson/include;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)CPPNet/include;$(SolutionDir)externals/SDL2/include;$(SolutionDir)externals/assimp/include;$(SolutionDir)externals/beast/include;$(SolutionDir)externals/websocketpp/include;$(SolutionDir)externals/libprotobuf/include;$(SolutionDir)externals/rapidjson/include;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -175,10 +175,12 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
   <ItemGroup>
     <ClCompile Include="KapokServer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="message\message.pb.cc" />
     <ClCompile Include="Processor\EchoProc.cpp" />
     <ClCompile Include="Processor\IProcessor.cpp" />
     <ClCompile Include="Processor\RenderRequestProc.cpp" />
-    <ClCompile Include="TestUnit\PrepareSampleData.cpp" />
+    <ClCompile Include="TestUnit\PrepareSampleData_Json.cpp" />
+    <ClCompile Include="TestUnit\PrepareSampleData_Protobuf.cpp" />
     <ClCompile Include="TestUnit\ServerTestUnit.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -198,10 +200,12 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
   <ItemGroup>
     <ClInclude Include="IReflection.h" />
     <ClInclude Include="KapokServer.h" />
+    <ClInclude Include="message\message.pb.h" />
     <ClInclude Include="Processor\EchoProc.h" />
     <ClInclude Include="Processor\IProcessor.h" />
     <ClInclude Include="Processor\RenderRequestProc.h" />
-    <ClInclude Include="TestUnit\PrepareSampleData.h" />
+    <ClInclude Include="TestUnit\PrepareSampleData_Json.h" />
+    <ClInclude Include="TestUnit\PrepareSampleData_Protobuf.h" />
     <ClInclude Include="TestUnit\ServerTestUnit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
