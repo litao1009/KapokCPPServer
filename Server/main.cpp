@@ -7,11 +7,29 @@
 #undef main
 #endif // main
 
-#include "ServerTestUnit.h"
+#include "TestUnit/ServerTestUnit.h"
 
-int main()
+#include <boost/program_options.hpp>
+
+int main(int argc, char** argv)
 {
-	//ServerTestUnit::Run();
+	{
+		using namespace boost::program_options;
+
+		options_description desc;
+		desc.add_options()
+			( "test,t", "Run Test Unit" );
+
+		variables_map vm;
+		store( parse_command_line( argc, argv, desc ), vm );
+		notify( vm );
+
+		if ( vm.count( "test" ) )
+		{
+			ServerTestUnit::Run();
+			return 0;
+		}
+	}
 
 	{//Init SDL
 		/*auto ret =*/ SDL_Init(SDL_INIT_EVENTS);
