@@ -13,10 +13,10 @@ void RenderRequestProc::Process(SProcInfoSPtr& procInfo)
 {
 	auto& info_ = *procInfo;
 
-	Ptree assetResponse;
-	assetResponse.add("MessageName", "AssetResponse");
-	assetResponse.add("AssetUUID", "sampleData");
-	assetResponse.add("AssetType", "Obj");
+	ContentType assetResponse;
+	assetResponse.AddMember("MessageName", "AssetResponse", assetResponse.GetAllocator());
+	assetResponse.AddMember("AssetUUID", "sampleData", assetResponse.GetAllocator() );
+	assetResponse.AddMember("AssetType", "Obj", assetResponse.GetAllocator() );
 	{
 		std::string objBuf;
 		{
@@ -33,10 +33,9 @@ void RenderRequestProc::Process(SProcInfoSPtr& procInfo)
 			fs.read(&(objBuf[0]), objBuf.size());
 		}
 
-		Ptree assetContent;
-		assetContent.add("ObjContent", objBuf);
-
-		assetResponse.add_child("AssetContent", assetContent);
+		rapidjson::Value assetContent(rapidjson::kObjectType);
+		assetContent.AddMember("ObjContent", rapidjson::StringRef( objBuf.data(), objBuf.size() ), assetResponse.GetAllocator() );
+		assetResponse.AddMember("AssetContent", assetContent.Move(), assetResponse.GetAllocator() );
 	}
 
 	auto sendBuf = IProcessor::WriteJson(assetResponse);

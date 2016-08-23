@@ -1,5 +1,7 @@
 #include "PrepareSampleData.h"
 
+#include "Processor/IProcessor.h"
+
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/cimport.h"
@@ -10,7 +12,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
-#include <boost/property_tree/json_parser.hpp>
+
+using ContentType = IProcessor::ContentType;
 
 IMPLEMNET_REFLECTION( PrepareSampleData )
 
@@ -20,7 +23,6 @@ public:
 
 	std::vector<aiVector3D>	VertexInfo_;
 	using	VertexList = decltype( VertexInfo_ );
-	using	PtType = boost::property_tree::ptree;
 
 	const aiScene*	Scene_{};
 
@@ -53,10 +55,6 @@ public:
 		decltype( VertexInfo_ ) tmpInfo;
 		tmpInfo.reserve( VertexInfo_.size() );
 
-		boost::property_tree::ptree frameResponse;
-		frameResponse.add( "MessageName", "FrameResponse" );
-		frameResponse.add( "AssetUUID", "sampleData" );
-
 		for ( auto curFrame = 0U; curFrame < FrameCount_; ++curFrame )
 		{
 			auto timeEplased = curFrame * frameTime;
@@ -72,11 +70,17 @@ public:
 				tmpInfo.emplace_back( rotMatrix * curVertex );
 			}
 
-			auto& curFramePt = frameResponse.push_back( { "", PtType() } )->second;
+			ContentType frameResponse;
+			frameResponse.SetObject();
+			frameResponse.AddMember( "MessageName", "FrameResponse", frameResponse.GetAllocator() );
+			frameResponse.AddMember( "AssetUUID", "sampleData", frameResponse.GetAllocator() );
 
-			curFramePt.push_back( { "", PtType() } )->second.put_value( curFrame );
-			PutVertexPt( curFramePt, tmpInfo );
+			rapidjson::Value curFramePt( rapidjson::kArrayType );
+			curFramePt.PushBack( curFrame, frameResponse.GetAllocator() );
 
+			PutVertexPt( frameResponse, curFramePt, tmpInfo );
+			
+			frameResponse.AddMember( "Content", curFramePt.Move(), frameResponse.GetAllocator() );
 			{
 				boost::filesystem::path savePath( "sampleData.frameResponse" + std::to_string( curFrame ) );
 				if ( boost::filesystem::exists( savePath ) )
@@ -92,10 +96,8 @@ public:
 				}
 
 				boost::filesystem::ofstream ofs( savePath, std::ios_base::trunc );
-				boost::property_tree::json_parser::write_json( ofs, frameResponse );
+				IProcessor::WriteJson( ofs, frameResponse );
 			}
-
-			curFramePt.pop_back();
 		}
 	}
 
@@ -149,15 +151,18 @@ public:
 
 	void SaveAsset( const std::string& obj )
 	{
-		PtType json;
-		json.add( "MessageName", "AssetResponse" );
-		json.add( "AssetUUID", "SampleData" );
-		json.add( "AssetType", "Obj" );
-		json.add( "FrameCount", FrameCount_ );
-		json.add( "FPS", FPS_ );
+		ContentType json;
+		json.SetObject();
+		json.AddMember( "MessageName", "AssetResponse", json.GetAllocator() );
+		json.AddMember( "AssetUUID", "SampleData", json.GetAllocator() );
+		json.AddMember( "AssetType", "Obj", json.GetAllocator() );
+		json.AddMember( "FrameCount", FrameCount_, json.GetAllocator() );
+		json.AddMember( "FPS", FPS_, json.GetAllocator() );
 		{
-			auto& content = json.push_back( {"AssetContent", PtType()} )->second;
-			content.add( "ObjContent", obj );
+			rapidjson::Value content( rapidjson::kObjectType );
+
+			content.AddMember( "ObjContent", rapidjson::StringRef(obj.data(), obj.size()), json.GetAllocator() );
+			json.AddMember( "AssetContent", content.Move(), json.GetAllocator() );
 		}
 
 		boost::filesystem::path savePath( "sampleData.asset" );
@@ -174,25 +179,31 @@ public:
 		}
 
 		boost::filesystem::ofstream ofs( savePath, std::ios_base::trunc );
-		boost::property_tree::json_parser::write_json( ofs, json );
+		IProcessor::WriteJson( ofs, json );
+
 	}
 
-	void	PutVertexPt(PtType& framePt, VertexList& verList)
+	void	PutVertexPt(ContentType& doc, rapidjson::Value& frameValue, VertexList& verList)
 	{
-		auto& vertexBuf = framePt.push_back( {"", PtType()} )->second;
+		rapidjson::Value vertexBuf( rapidjson::kArrayType );
+		vertexBuf.Reserve( verList.size(), doc.GetAllocator() );
 
 		auto verIndex = 0U;
 		for ( auto& curVertex : verList )
 		{
-			auto& curPt = vertexBuf.push_back( { "", PtType( ) } )->second;
+			rapidjson::Value curPt( rapidjson::kArrayType );
 
-			curPt.push_back( { "", PtType() } )->second.put_value( verIndex );
-			curPt.push_back( { "", PtType( ) } )->second.put_value( curVertex.x );
-			curPt.push_back( { "", PtType( ) } )->second.put_value( curVertex.y );
-			curPt.push_back( { "", PtType( ) } )->second.put_value( curVertex.z );
+			curPt.PushBack( verIndex, doc.GetAllocator() );
+			curPt.PushBack( curVertex.x, doc.GetAllocator() );
+			curPt.PushBack( curVertex.y, doc.GetAllocator() );
+			curPt.PushBack( curVertex.z, doc.GetAllocator() );
+
+			vertexBuf.PushBack( curPt.Move(), doc.GetAllocator() );
 
 			++verIndex;
 		}
+
+		frameValue.PushBack( vertexBuf, doc.GetAllocator() );
 	}
 };
 

@@ -6,7 +6,7 @@
 #include "WSPPSession.h"
 #include "AsyncThreadPool.h"
 
-#include <boost/property_tree/ptree.hpp>
+#include "rapidjson/document.h"
 
 class	IProcessor : public IReflection<IProcessor>
 {
@@ -16,7 +16,7 @@ public:
 
 public:
 
-	using	Ptree = boost::property_tree::ptree;
+	using	ContentType = rapidjson::Document;
 
 	class	SProcInfo
 	{
@@ -24,10 +24,10 @@ public:
 
 		SProcInfo(AsyncThreadPool& pool) :ThreadPool_(pool) {}
 
-		MessagePtr					RawMsg_;
-		WSPPSessionSPtr				Session_;
-		Ptree						Content_;
-		AsyncThreadPool&			ThreadPool_;
+		MessagePtr			RawMsg_;
+		WSPPSessionSPtr		Session_;
+		ContentType			Content_;
+		AsyncThreadPool&	ThreadPool_;
 	};
 	using	SProcInfoSPtr = std::shared_ptr<SProcInfo>;
 
@@ -35,7 +35,9 @@ public:
 
 	static	void	DispatchMsg(AsyncThreadPool& threadPool, MessagePtr& msg, WSPPSessionSPtr& session);
 
-	static	std::string	WriteJson(const Ptree& input);
+	static	std::string	WriteJson(const ContentType& input);
+
+	static	void		WriteJson( std::ostream& os, const ContentType& input );
 
 public:
 

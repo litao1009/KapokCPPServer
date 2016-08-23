@@ -6,10 +6,11 @@ IMPLEMNET_REFLECTION_WITH_KEY(EchoProc, Echo)
 
 void EchoProc::Process(SProcInfoSPtr& procInfo)
 {
-	auto content = procInfo->Content_.get<std::string>("Content");
-	Ptree response;
-	response.add("MessageName", "EchoResponse");
-	response.add("Content", content);
+	ContentType response;
+
+	response.AddMember( "MessageName", "EchoResponse", response.GetAllocator() );
+	auto& content = procInfo->Content_["Content"];
+	response.AddMember( "Content", content, response.GetAllocator() );
 
 	auto sendBuf = WriteJson(response);
 
