@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "assimp", "externals\assimp\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL2-static", "externals\SDL2\SDL2-static.vcxproj", "{773D47B6-DA0C-388D-B713-D7FFB5264CBC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libprotobuf", "externals\libprotobuf\libprotobuf.vcxproj", "{75304EE6-BB50-3371-AFBD-FDC28B10BE4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,13 @@ Global
 		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Release|x64.Build.0 = Release|x64
 		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Release|x86.ActiveCfg = Release|Win32
 		{773D47B6-DA0C-388D-B713-D7FFB5264CBC}.Release|x86.Build.0 = Release|Win32
+		{75304EE6-BB50-3371-AFBD-FDC28B10BE4C}.Debug|x64.ActiveCfg = Debug|x64
+		{75304EE6-BB50-3371-AFBD-FDC28B10BE4C}.Debug|x64.Build.0 = Debug|x64
+		{75304EE6-BB50-3371-AFBD-FDC28B10BE4C}.Debug|x86.ActiveCfg = Debug|Win32
+		{75304EE6-BB50-3371-AFBD-FDC28B10BE4C}.Debug|x86.Build.0 = Debug|Win32
+		{75304EE6-BB50-3371-AFBD-FDC28B10BE4C}.Release|x64.ActiveCfg = Release|Win32
+		{75304EE6-BB50-3371-AFBD-FDC28B10BE4C}.Release|x86.ActiveCfg = Release|Win32
+		{75304EE6-BB50-3371-AFBD-FDC28B10BE4C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,5 +88,6 @@ Global
 		{FCA91B5C-EAD9-398C-9924-88D1DDD22168} = {9915C6B5-164B-40EF-B8C7-34BDDD83B7B7}
 		{FD6CB567-7BE0-32E8-B589-CF63C54BB6B5} = {9915C6B5-164B-40EF-B8C7-34BDDD83B7B7}
 		{773D47B6-DA0C-388D-B713-D7FFB5264CBC} = {9915C6B5-164B-40EF-B8C7-34BDDD83B7B7}
+		{75304EE6-BB50-3371-AFBD-FDC28B10BE4C} = {9915C6B5-164B-40EF-B8C7-34BDDD83B7B7}
 	EndGlobalSection
 EndGlobal
