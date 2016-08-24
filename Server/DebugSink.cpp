@@ -19,7 +19,7 @@ public:
 		{
 			if ( c != EOF )
 			{
-				char buf[] = { c,'\0' };
+				char buf[] = { static_cast<char>(c),'\0' };
 				OutputDebugStringA( buf );
 			}
 
