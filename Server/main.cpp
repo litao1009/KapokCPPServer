@@ -1,41 +1,27 @@
 #include "vld.h"
 
-#include <windows.h>
-
 #include "KapokServer.h"
 #include "DebugSink.h"
 
 #include "SDL2/SDL.h"
-#ifdef main
-#undef main
-#endif // main
 
 #include "TestUnit/ServerTestUnit.h"
 
 #include <boost/program_options.hpp>
 
-int CALLBACK WinMain(
-	_In_ HINSTANCE hInstance,
-	_In_ HINSTANCE hPrevInstance,
-	_In_ LPSTR     lpCmdLine,
-	_In_ int       nCmdShow
-)
+int main(int argc, char **argv)
 {
 	DebugSink dbgSink;
 	
 	{
 		using namespace boost::program_options;
 
-		LPWSTR *szArgList;
-		int argCount;
-		szArgList = CommandLineToArgvW( GetCommandLineW(), &argCount );
-
 		options_description desc;
 		desc.add_options()
 			( "test,t", "Run Test Unit" );
 
 		variables_map vm;
-		store( parse_command_line( argCount, szArgList, desc ), vm );
+		store( parse_command_line( argc, argv, desc ), vm );
 		notify( vm );
 
 		if ( vm.count( "test" ) )

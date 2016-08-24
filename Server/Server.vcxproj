@@ -195,6 +195,9 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
     <ProjectReference Include="..\externals\libprotobuf\libprotobuf.vcxproj">
       <Project>{75304ee6-bb50-3371-afbd-fdc28b10be4c}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\externals\SDL2\SDL2-main.vcxproj">
+      <Project>{4942ec43-30e9-4370-9596-99af7ae5a9d5}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\externals\SDL2\SDL2-static.vcxproj">
       <Project>{773d47b6-da0c-388d-b713-d7ffb5264cbc}</Project>
     </ProjectReference>
