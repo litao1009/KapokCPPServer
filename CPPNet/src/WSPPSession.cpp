@@ -1,4 +1,5 @@
 #include "WSPPSession.h"
+
 class	WSPPSession::Imp
 {
 public:
