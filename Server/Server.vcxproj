@@ -101,6 +101,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName)$(PlatformToolsetVersion).pdb</ProgramDatabaseFile>
       <AdditionalDependencies>winmm.lib;version.lib;Imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y
@@ -120,6 +121,7 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName)$(PlatformToolsetVersion).pdb</ProgramDatabaseFile>
       <AdditionalDependencies>winmm.lib;version.lib;Imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y
@@ -143,6 +145,7 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName)$(PlatformToolsetVersion).pdb</ProgramDatabaseFile>
       <AdditionalDependencies>winmm.lib;version.lib;Imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y
@@ -166,6 +169,7 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName)$(PlatformToolsetVersion).pdb</ProgramDatabaseFile>
       <AdditionalDependencies>winmm.lib;version.lib;Imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>xcopy $(ProjectDir)config.xml $(OutDir) /Y
