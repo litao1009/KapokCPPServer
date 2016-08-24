@@ -51,6 +51,9 @@
     <ClCompile Include="message\message.pb.cc">
       <Filter>源文件\message</Filter>
     </ClCompile>
+    <ClCompile Include="DebugSink.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KapokServer.h">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="message\message.pb.h">
       <Filter>源文件\message</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugSink.h">
+      <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

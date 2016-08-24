@@ -173,6 +173,7 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DebugSink.cpp" />
     <ClCompile Include="KapokServer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="message\message.pb.cc" />
@@ -198,6 +199,7 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DebugSink.h" />
     <ClInclude Include="IReflection.h" />
     <ClInclude Include="KapokServer.h" />
     <ClInclude Include="message\message.pb.h" />

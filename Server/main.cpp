@@ -1,6 +1,7 @@
 #include "vld.h"
 
 #include "KapokServer.h"
+#include "DebugSink.h"
 
 #include "SDL2/SDL.h"
 #ifdef main
@@ -13,6 +14,8 @@
 
 int main(int argc, char** argv)
 {
+	DebugSink dbgSink;
+
 	{
 		using namespace boost::program_options;
 

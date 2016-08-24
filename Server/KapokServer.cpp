@@ -15,8 +15,8 @@
 #include <iostream>
 #include <vector>
 
+#include <boost/format.hpp>
 #include <boost/property_tree/xml_parser.hpp>
-
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
@@ -32,6 +32,26 @@ public:
 		uint32_t	TcpThread_{ 1 };
 		uint32_t	WebsocketPort{ 6002 };
 		uint32_t	WebsocketThread_{ 1 };
+		uint32_t	ProcessorThread_{ 1 };
+
+	public:
+
+		std::string	Dump()
+		{
+			using namespace std::string_literals;
+
+			auto div = "=======================Config=========================\n"s;
+
+			boost::format fmt( "%sStart TCP at port %d with %d threads.\nStart Websocket at port %d with %d threads.\nStart %d processor threads.\n%s" );
+
+			fmt % div
+				% TcpPort_ % TcpThread_
+				% WebsocketPort % WebsocketThread_
+				% ProcessorThread_
+				% div;
+
+			return fmt.str();
+		}
 	};
 
 public:
@@ -179,6 +199,11 @@ void KapokServer::Start()
 	try
 	{
 		imp_.ReadConfig();
+
+		{
+			std::unique_lock<std::mutex> lock( imp_.ConsoleMutex_ );
+			std::cout << imp_.ConfigInfo_.Dump() << std::endl;
+		}
 
 		imp_.StartTCPServer();
 
