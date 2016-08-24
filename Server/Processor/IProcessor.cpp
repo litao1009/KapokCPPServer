@@ -24,6 +24,7 @@ void IProcessor::DispatchMsg(AsyncThreadPool& threadPool, MessagePtr& rawMsg, WS
 		rapidjson::IStreamWrapper isw( is );
 
 		JsonDOM dom;
+		dom.SetObject();
 		dom.ParseStream( isw );
 
 		if ( dom.HasParseError() || !dom.HasMember( "MessageName" ) )

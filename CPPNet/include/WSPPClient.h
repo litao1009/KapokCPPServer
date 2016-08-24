@@ -1,6 +1,6 @@
 #pragma once
 
-#include "WSPPPredef.h"
+#include "Predef.h"
 #include "WSPPSessionFwd.h"
 
 #include <memory>
@@ -14,7 +14,7 @@ class	WSPPClient
 
 public:
 
-	WSPPClient();
+	WSPPClient( IOService& ios );
 
 	~WSPPClient();
 
@@ -35,7 +35,7 @@ public:
 
 	void	SetServer( const std::string& server );
 
-	std::tuple<ErrCode, WSPPSessionSPtr>	CreateSession();
+	ErrCode	CreateSession();
 
 	Listener&	GetListener();
 };
