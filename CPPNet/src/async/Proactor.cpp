@@ -1,5 +1,7 @@
 #include "Proactor.h"
 
+#include "ErrCodeUtil.h"
+
 class	Proactor::Imp
 {
 public:
@@ -23,11 +25,11 @@ ErrCode Proactor::Run()
 {
 	auto& imp_ = *ImpUPtr_;
 
-	ErrCode ec;
+	boost::system::error_code ec;
 
 	imp_.IoService_.run(ec);
 
-	return ec;
+	return ConvertBoostECToStdEC(ec);
 }
 
 void Proactor::Stop()

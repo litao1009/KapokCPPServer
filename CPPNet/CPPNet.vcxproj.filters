@@ -63,6 +63,12 @@
     <ClInclude Include="include\WSPPSessionFwd.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\WSPPClient.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ErrCodeUtil.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\async\Proactor.cpp">
@@ -90,6 +96,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\WSPPSession.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WSPPClient.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ErrCodeUtil.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

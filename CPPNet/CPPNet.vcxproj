@@ -147,6 +147,7 @@
     <ClInclude Include="include\TCPServer.h" />
     <ClInclude Include="include\TcpSession.h" />
     <ClInclude Include="include\TcpSessionFwd.h" />
+    <ClInclude Include="include\WSPPClient.h" />
     <ClInclude Include="include\WSPPPredef.h" />
     <ClInclude Include="include\WSPPServer.h" />
     <ClInclude Include="include\WSPPSession.h" />
@@ -156,13 +157,16 @@
     <ClInclude Include="include\WSSession.h" />
     <ClInclude Include="include\WSSessionFwd.h" />
     <ClInclude Include="src\async\Proactor.h" />
+    <ClInclude Include="src\ErrCodeUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\async\AsyncThreadPool.cpp" />
     <ClCompile Include="src\async\Proactor.cpp" />
+    <ClCompile Include="src\ErrCodeUtil.cpp" />
     <ClCompile Include="src\TCPClient.cpp" />
     <ClCompile Include="src\TCPServer.cpp" />
     <ClCompile Include="src\TcpSession.cpp" />
+    <ClCompile Include="src\WSPPClient.cpp" />
     <ClCompile Include="src\WSPPServer.cpp" />
     <ClCompile Include="src\WSPPSession.cpp" />
     <ClCompile Include="src\WSServer.cpp" />

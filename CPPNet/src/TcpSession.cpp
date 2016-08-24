@@ -1,5 +1,7 @@
 #include "TcpSession.h"
 
+#include "ErrCodeUtil.h"
+
 #include <atomic>
 #include <array>
 
@@ -88,7 +90,7 @@ public:
 
 	void	Close()
 	{
-		ErrCode	ec;
+		boost::system::error_code	ec;
 		Socket_.shutdown(Socket::shutdown_both, ec);
 
 		Socket_.close(ec);
@@ -119,12 +121,12 @@ public:
 			RecvState_ = ERS_Head;
 		}
 
-		Socket_.async_receive(boost::asio::buffer(RecvHeadBuf_.data() + RecvTransfered_, RecvHeadBuf_.size() - RecvTransfered_), [this, thisPtr = std::move(sessionPtr)](const ErrCode& ec, auto transBytes) mutable
+		Socket_.async_receive(boost::asio::buffer(RecvHeadBuf_.data() + RecvTransfered_, RecvHeadBuf_.size() - RecvTransfered_), [this, thisPtr = std::move(sessionPtr)](const auto& ec, auto transBytes) mutable
 		{
 			if ( ec )
 			{
 				ResetRecv();
-				Listener_.OnPostReceive_(thisPtr, ec, BufferType(0));
+				Listener_.OnPostReceive_(thisPtr, ConvertBoostECToStdEC( ec ), BufferType(0));
 				return;
 			}
 
@@ -182,13 +184,13 @@ public:
 			if ( ec )
 			{
 				ResetRecv();
-				Listener_.OnPostReceive_(thisPtr, ec, BufferType(0));
+				Listener_.OnPostReceive_(thisPtr, ConvertBoostECToStdEC( ec ), BufferType(0));
 				return;
 			}
 
 			RecvTransfered_ += transBytes;
 
-			Listener_.OnReceive_(thisPtr, ec, RecvTransfered_, RecvBodyBuf_.size());
+			Listener_.OnReceive_(thisPtr, ConvertBoostECToStdEC( ec ), RecvTransfered_, RecvBodyBuf_.size());
 
 			if ( RecvTransfered_ < RecvBodyBuf_.size() )
 			{
@@ -197,7 +199,7 @@ public:
 			else
 			{
 				ResetRecv();
-				Listener_.OnPostReceive_(thisPtr, ec, RecvBodyBuf_);
+				Listener_.OnPostReceive_(thisPtr, ConvertBoostECToStdEC( ec ), RecvBodyBuf_);
 			}
 		});
 	}
@@ -217,7 +219,7 @@ public:
 		{
 			if ( ec )
 			{
-				Listener_.OnPostSend_(thisPtr, ec);
+				Listener_.OnPostSend_(thisPtr, ConvertBoostECToStdEC( ec ) );
 				ResetSend();
 				return;
 			}
@@ -238,19 +240,19 @@ public:
 		{
 			if ( ec )
 			{
-				Listener_.OnPostSend_(thisPtr, ec);
+				Listener_.OnPostSend_(thisPtr, ConvertBoostECToStdEC( ec ) );
 				ResetSend();
 				return;
 			}
 
 			SendTransfered_ += ubytes;
 
-			Listener_.OnSend_(thisPtr, ec, SendTransfered_, boost::asio::buffer_size(SendBuf_));
+			Listener_.OnSend_(thisPtr, ConvertBoostECToStdEC( ec ), SendTransfered_, boost::asio::buffer_size(SendBuf_));
 
 			if ( SendTransfered_ == boost::asio::detail::buffer_size_helper(SendBuf_) )
 			{
 				ResetSend();
-				Listener_.OnPostSend_(thisPtr, ec);
+				Listener_.OnPostSend_(thisPtr, ConvertBoostECToStdEC( ec ) );
 			}
 			else
 			{
@@ -320,7 +322,7 @@ bool TcpSession::Send(const boost::asio::const_buffer& buffer)
 		return false;
 	}
 
-	imp_.SendHead_.ContentLength_ = boost::asio::detail::buffer_size_helper(buffer);
+	imp_.SendHead_.ContentLength_ = boost::asio::buffer_size(buffer);
 	imp_.SendBuf_ = buffer;
 
 	imp_.SendHead(shared_from_this());

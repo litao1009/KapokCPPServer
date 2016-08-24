@@ -4,6 +4,8 @@
 
 #include "WSPredef.h"
 
+#include "ErrCodeUtil.h"
+
 class	WSSession::Imp
 {
 public:
@@ -29,7 +31,7 @@ public:
 	void	Receive(WSSessionSPtr& session)
 	{
 		
-		WSStream_.async_read_frame(FrameInfo_, RecvBuf_, [this, sessionPtr = std::move(session)](const ErrCode& ec) mutable
+		WSStream_.async_read_frame(FrameInfo_, RecvBuf_, [this, sessionPtr = std::move(session)](const auto& ec) mutable
 		{
 			if (ec)
 			{
@@ -54,9 +56,9 @@ public:
 
 	void	Send(WSSessionSPtr& session)
 	{
-		WSStream_.async_write(RecvBuf_.data(), [this, sessionPtr = std::move(session)](const ErrCode& ec) mutable
+		WSStream_.async_write(RecvBuf_.data(), [this, sessionPtr = std::move(session)](const auto& ec) mutable
 		{
-			Listener_.OnPostSend_(ec, sessionPtr);
+			Listener_.OnPostSend_(ConvertBoostECToStdEC(ec), sessionPtr);
 		});
 	}
 };
@@ -88,14 +90,16 @@ ErrCode WSSession::Close()
 {
 	auto& imp_ = *ImpUPtr_;
 
-	ErrCode ec;
+	boost::system::error_code ec;
 	imp_.WSStream_.close(beast::websocket::close_code::normal, ec);
 
 	imp_.WSStream_.next_layer().close(ec);
 
-	imp_.Listener_.OnClose_(ec, shared_from_this());
+	auto stdEc = ConvertBoostECToStdEC( ec );
 
-	return ec;
+	imp_.Listener_.OnClose_( stdEc, shared_from_this());
+
+	return stdEc;
 }
 
 bool WSSession::Send(const boost::asio::const_buffer& buffer, beast::websocket::opcode opCode)

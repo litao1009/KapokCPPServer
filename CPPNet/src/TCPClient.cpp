@@ -1,6 +1,7 @@
 #include "TCPClient.h"
-
 #include "TcpSession.h"
+
+#include "ErrCodeUtil.h"
 
 class	TCPClient::Imp
 {
@@ -34,10 +35,10 @@ std::tuple<ErrCode, TcpSessionSPtr> TCPClient::CreateSession()
 
 	auto session = std::make_shared<TcpSession>(imp_.IOService_);
 
-	ErrCode ec;
+	boost::system::error_code ec;
 	session->GetSocket().connect(imp_.ServerEP_, ec);
 
-	return std::make_tuple(ec, session);
+	return std::make_tuple( ConvertBoostECToStdEC( ec ), session);
 }
 
 void TCPClient::AsyncCreateSession(boost::optional<uint32_t> timeout /*= boost::none*/)
@@ -50,7 +51,7 @@ void TCPClient::AsyncCreateSession(boost::optional<uint32_t> timeout /*= boost::
 	{
 		auto& imp_ = *ImpUPtr_;
 
-		imp_.Listener_.OnCreateSession_(ec, session);
+		imp_.Listener_.OnCreateSession_( ConvertBoostECToStdEC( ec ), session);
 	});
 }
 
