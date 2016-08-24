@@ -10,6 +10,8 @@
 
 #include "Processor/IProcessor.h"
 
+#include "google/protobuf/stubs/common.h"
+
 #include <iostream>
 #include <vector>
 
@@ -201,6 +203,8 @@ void KapokServer::Stop()
 
 	imp_.WebsocketServer_.StopAccept();
 	imp_.WebsocketThreadPool_.Stop();
+
+	google::protobuf::ShutdownProtobufLibrary();
 }
 
 void KapokServer::Join()
