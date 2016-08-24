@@ -28,7 +28,6 @@ WSPPClient::WSPPClient( IOService& ios ):ImpUPtr_(std::make_unique<Imp>(ios))
 	imp_.ThisPtr_ = this;
 
 	imp_.Client_.set_access_channels( websocketpp::log::alevel::none );
-	imp_.Client_.init_asio( &imp_.IOS_ );
 
 	imp_.Client_.set_open_handler( [thisPtr = imp_.ThisPtr_]( websocketpp::connection_hdl connHDL )
 	{
@@ -65,6 +64,8 @@ WSPPClient::WSPPClient( IOService& ios ):ImpUPtr_(std::make_unique<Imp>(ios))
 
 		imp_.Listener_.OnCreateSession_( session );
 	} );
+
+	imp_.Client_.init_asio( &imp_.IOS_ );
 }
 
 WSPPClient::~WSPPClient()

@@ -3,10 +3,14 @@
 #include "AsyncThreadPool.h"
 
 #include <iostream>
+#include <atomic>
+#include <boost/filesystem/fstream.hpp>
+#include <boost/filesystem.hpp>
 
 using namespace std::string_literals;
 
 WSPPSessionSPtr session;
+std::atomic_uint32_t count{ 0 };
 
 int main(int argc, char** argv)
 {
@@ -20,10 +24,25 @@ int main(int argc, char** argv)
 	AsyncThreadPool threadPool;
 	threadPool.Start( 1 );
 
+	if ( boost::filesystem::exists( "recvData" ) )
+	{
+		boost::filesystem::remove_all( "recvData" );
+	}
+	boost::filesystem::create_directories( "recvData" );
+
 	WSPPClient client( threadPool.GetIOService() );
 	client.GetListener().OnCreateSession_.connect( []( WSPPSessionSPtr se )
 	{
 		session = se;
+
+		session->GetListener().OnMessage_.connect( []( auto se, MessagePtr msg )
+		{
+			auto curCount = count.fetch_add( 1 );
+
+			boost::filesystem::ofstream ofs( "recvData/output" + std::to_string( curCount ), std::ios_base::binary |std::ios_base::trunc);
+			auto& content = msg->get_payload();
+			ofs.write( content.data(), content.size() );
+		} );
 	} );
 
 	client.SetServer( argv[1] );
@@ -34,17 +53,9 @@ int main(int argc, char** argv)
 		auto i = 0;
 	}
 
-	std::this_thread::sleep_for( std::chrono::seconds( 5 ) );
+	std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
 
-	session->GetListener().OnPostSend_.connect( []( auto se )
-	{
-		session->GetListener().OnMessage_.connect( []( auto se, const auto& msgPtr )
-		{
-			std::cout << msgPtr->get_payload() << std::endl;
-		} );
-	} );
-
-	auto testBuf = R"({"MessageName":"Echo","Content":"Hello"})"s;
+	auto testBuf = R"({"MessageName":"RenderRequest"})"s;
 
 	session->Send( boost::asio::buffer( testBuf ), websocketpp::frame::opcode::text );
 
