@@ -6,6 +6,6 @@ class	RenderRequestProc : public IProcessor::ReflectionImp<RenderRequestProc>
 {
 public:
 
-	virtual void Process(SProcInfoSPtr& procInfo) override;
+	virtual void ProcessJSON( ContextInfoSPtr& procInfo, JsonDOM& dom ) override;
 
 };

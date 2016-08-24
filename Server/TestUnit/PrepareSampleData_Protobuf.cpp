@@ -6,16 +6,13 @@
 #include "assimp/scene.h"
 #include "assimp/cimport.h"
 
-#include "message/message.pb.h"
+#include "message/RenderRequest.pb.h"
 
 #include <iostream>
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
-
-
-using ContentType = IProcessor::ContentType;
 
 IMPLEMNET_REFLECTION( PrepareSampleData_Protobuf )
 

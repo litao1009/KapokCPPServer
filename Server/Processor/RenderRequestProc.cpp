@@ -9,11 +9,11 @@
 
 IMPLEMNET_REFLECTION_WITH_KEY(RenderRequestProc, RenderRequest)
 
-void RenderRequestProc::Process(SProcInfoSPtr& procInfo)
+void RenderRequestProc::ProcessJSON( ContextInfoSPtr& procInfo, JsonDOM& dom )
 {
 	auto& info_ = *procInfo;
 
-	ContentType assetResponse;
+	JsonDOM assetResponse;
 	assetResponse.SetObject();
 	assetResponse.AddMember("MessageName", "AssetResponse", assetResponse.GetAllocator());
 	assetResponse.AddMember("AssetUUID", "sampleData", assetResponse.GetAllocator() );
@@ -47,5 +47,5 @@ void RenderRequestProc::Process(SProcInfoSPtr& procInfo)
 		
 	});
 
-	info_.Session_->Send(boost::asio::buffer(sendBuf), info_.RawMsg_->get_opcode());
+	info_.Session_->Send(boost::asio::buffer(sendBuf), websocketpp::frame::opcode::text);
 }

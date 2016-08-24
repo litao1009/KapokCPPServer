@@ -4,14 +4,14 @@
 
 IMPLEMNET_REFLECTION_WITH_KEY(EchoProc, Echo)
 
-void EchoProc::Process(SProcInfoSPtr& procInfo)
+void EchoProc::ProcessJSON( ContextInfoSPtr& procInfo, JsonDOM& dom )
 {
-	ContentType response;
+	JsonDOM response;
 	response.SetObject();
 	response.AddMember( "MessageName", "EchoResponse", response.GetAllocator() );
-	if ( procInfo->Content_.HasMember( "Content" ) )
+	if ( dom.HasMember( "Content" ) )
 	{
-		auto& content = procInfo->Content_["Content"];
+		auto& content = dom["Content"];
 		response.AddMember( "Content", content, response.GetAllocator() );
 	}
 	else
@@ -26,5 +26,5 @@ void EchoProc::Process(SProcInfoSPtr& procInfo)
 		session->Receive();
 	});
 
-	procInfo->Session_->Send(boost::asio::buffer(sendBuf), procInfo->RawMsg_->get_opcode());
+	procInfo->Session_->Send(boost::asio::buffer(sendBuf), websocketpp::frame::opcode::text);
 }

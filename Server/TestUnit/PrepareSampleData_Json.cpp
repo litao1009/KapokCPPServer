@@ -12,9 +12,6 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
-
-using ContentType = IProcessor::ContentType;
-
 //IMPLEMNET_REFLECTION( PrepareSampleData_Json )
 
 class	PrepareSampleData_Json::Imp
@@ -70,7 +67,7 @@ public:
 				tmpInfo.emplace_back( rotMatrix * curVertex );
 			}
 
-			ContentType frameResponse;
+			IProcessor::JsonDOM frameResponse;
 			frameResponse.SetObject();
 			frameResponse.AddMember( "MessageName", "FrameResponse", frameResponse.GetAllocator() );
 			frameResponse.AddMember( "AssetUUID", "sampleData", frameResponse.GetAllocator() );
@@ -151,7 +148,7 @@ public:
 
 	void SaveAsset( const std::string& obj )
 	{
-		ContentType json;
+		IProcessor::JsonDOM json;
 		json.SetObject();
 		json.AddMember( "MessageName", "AssetResponse", json.GetAllocator() );
 		json.AddMember( "AssetUUID", "SampleData", json.GetAllocator() );
@@ -183,7 +180,7 @@ public:
 
 	}
 
-	void	PutVertexPt(ContentType& doc, rapidjson::Value& frameValue, VertexList& verList)
+	void	PutVertexPt(IProcessor::JsonDOM& doc, rapidjson::Value& frameValue, VertexList& verList)
 	{
 		rapidjson::Value vertexBuf( rapidjson::kArrayType );
 		vertexBuf.Reserve( verList.size(), doc.GetAllocator() );

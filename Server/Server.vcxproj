@@ -180,7 +180,9 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
     <ClCompile Include="DebugSink.cpp" />
     <ClCompile Include="KapokServer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="message\message.pb.cc" />
+    <ClCompile Include="message\Echo.pb.cc" />
+    <ClCompile Include="message\MessageName.pb.cc" />
+    <ClCompile Include="message\RenderRequest.pb.cc" />
     <ClCompile Include="Processor\EchoProc.cpp" />
     <ClCompile Include="Processor\IProcessor.cpp" />
     <ClCompile Include="Processor\RenderRequestProc.cpp" />
@@ -209,7 +211,9 @@ xcopy $(SolutionDir)SampleData $(OutDir)SampleData\ /Y /E</Command>
     <ClInclude Include="DebugSink.h" />
     <ClInclude Include="IReflection.h" />
     <ClInclude Include="KapokServer.h" />
-    <ClInclude Include="message\message.pb.h" />
+    <ClInclude Include="message\Echo.pb.h" />
+    <ClInclude Include="message\MessageName.pb.h" />
+    <ClInclude Include="message\RenderRequest.pb.h" />
     <ClInclude Include="Processor\EchoProc.h" />
     <ClInclude Include="Processor\IProcessor.h" />
     <ClInclude Include="Processor\RenderRequestProc.h" />

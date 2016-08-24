@@ -6,5 +6,5 @@ class	EchoProc : public IProcessor::ReflectionImp<EchoProc>
 {
 public:
 
-	virtual void Process(SProcInfoSPtr& procInfo) override;
+	virtual void ProcessJSON( ContextInfoSPtr& procInfo, JsonDOM& dom ) override;
 };

@@ -7,42 +7,58 @@
 #include "rapidjson/istreamwrapper.h"
 #include "rapidjson/ostreamwrapper.h"
 
+#include "message/MessageName.pb.h"
+
 #include <sstream>
 
-void IProcessor::DispatchMsg(AsyncThreadPool& threadPool, MessagePtr& msg, WSPPSessionSPtr& session)
+void IProcessor::DispatchMsg(AsyncThreadPool& threadPool, MessagePtr& rawMsg, WSPPSessionSPtr& session)
 {
-	try
+	auto context = std::make_shared<ContextInfo>( threadPool );
+	context->Session_ = std::move(session);
+
+	switch ( rawMsg->get_opcode() )
 	{
-		auto procInfo = std::make_shared<IProcessor::SProcInfo>(threadPool);
-
-		std::istringstream is(msg->get_payload());
+	case websocketpp::frame::opcode::text:
+	{//JSON
+		std::istringstream is( rawMsg->get_payload() );
 		rapidjson::IStreamWrapper isw( is );
-		procInfo->Content_.ParseStream( isw );
 
-		msg->get_raw_payload().clear();
-		msg->get_raw_payload().shrink_to_fit();
+		JsonDOM dom;
+		dom.ParseStream( isw );
 
-		procInfo->RawMsg_ = msg;
-		procInfo->Session_ = std::move(session);
-
-		if ( !procInfo->Content_.HasMember( "MessageName" ) )
+		if ( dom.HasParseError() || !dom.HasMember( "MessageName" ) )
 		{
 			return;
 		}
 
-		auto proc = IProcessor::CreateByKey( procInfo->Content_["MessageName"].GetString() );
-		if (proc)
+		auto proc = IProcessor::CreateByKey( dom["MessageName"].GetString() );
+		if ( proc )
 		{
-			proc->Process(procInfo);
+			proc->ProcessJSON( context, dom );
 		}
-	}
-	catch (const std::exception&)
-	{
+	}break;
+	case websocketpp::frame::opcode::binary:
+	{//Protobuf
+		msg::MessageName protoMsg;
+		auto ret = protoMsg.ParseFromString( rawMsg->get_payload() );
 
+		if ( !ret )
+		{
+			return;
+		}
+
+		auto proc = IProcessor::CreateByKey( protoMsg.message_name() );
+		if ( proc )
+		{
+			proc->ProcessProtobuf( context, rawMsg->get_raw_payload() );
+		}
+	}break;
+	default:
+		break;
 	}
 }
 
-std::string IProcessor::WriteJson(const ContentType& input)
+std::string IProcessor::WriteJson(const JsonDOM& input)
 {
 	std::stringstream ss;
 	
@@ -51,7 +67,7 @@ std::string IProcessor::WriteJson(const ContentType& input)
 	return ss.str();
 }
 
-void IProcessor::WriteJson( std::ostream & os, const ContentType & input )
+void IProcessor::WriteJson( std::ostream & os, const JsonDOM & input )
 {
 	rapidjson::OStreamWrapper osw( os );
 	rapidjson::Writer<decltype( osw )> writer( osw );

@@ -48,11 +48,17 @@
     <ClCompile Include="TestUnit\PrepareSampleData_Protobuf.cpp">
       <Filter>源文件\TestUnit</Filter>
     </ClCompile>
-    <ClCompile Include="message\message.pb.cc">
-      <Filter>源文件\message</Filter>
-    </ClCompile>
     <ClCompile Include="DebugSink.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="message\Echo.pb.cc">
+      <Filter>源文件\message</Filter>
+    </ClCompile>
+    <ClCompile Include="message\MessageName.pb.cc">
+      <Filter>源文件\message</Filter>
+    </ClCompile>
+    <ClCompile Include="message\RenderRequest.pb.cc">
+      <Filter>源文件\message</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,11 +86,17 @@
     <ClInclude Include="TestUnit\PrepareSampleData_Protobuf.h">
       <Filter>源文件\TestUnit</Filter>
     </ClInclude>
-    <ClInclude Include="message\message.pb.h">
-      <Filter>源文件\message</Filter>
-    </ClInclude>
     <ClInclude Include="DebugSink.h">
       <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="message\Echo.pb.h">
+      <Filter>源文件\message</Filter>
+    </ClInclude>
+    <ClInclude Include="message\MessageName.pb.h">
+      <Filter>源文件\message</Filter>
+    </ClInclude>
+    <ClInclude Include="message\RenderRequest.pb.h">
+      <Filter>源文件\message</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
